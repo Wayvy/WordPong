@@ -21,24 +21,12 @@ public class WordPass
 	 */
 	public WordPass(String wordToPass)
 	{
-		if (isViableWord(wordToPass))
 		{
 			this.wordToPass = wordToPass;
 			calculateMaxPoints(wordToPass);
 			calculateTimeToType(wordToPass);	
 		}
 		
-		else 
-		{
-			
-		}
-		
-	}
-	
-	
-	private boolean isViableWord (String word)
-	{
-		return true;
 	}
 	
 	/**
