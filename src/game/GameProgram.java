@@ -9,6 +9,7 @@ package game;
  */
 public class GameProgram implements Runnable {
 	public static byte roundNumber;
+	public static Countdown countdown;
 	private Player player1;
 	private Player player2;
 
@@ -42,16 +43,18 @@ public class GameProgram implements Runnable {
 			} while (!IsInDataBase(word));
 
 			WordPass pass = toss(word);
-			startTimer();
+			startTimer(pass.getTime());
 			player2.take(pass);
+			player2.increaseScore(countdown.stopCountdown());
 
 			do {
 				word = player2.pickWord();
 			} while (!IsInDataBase(word));
 
 			pass = toss(word);
-			startTimer();
+			startTimer(pass.getTime());
 			player1.take(pass);
+			player1.increaseScore(countdown.stopCountdown());
 			nextRound();
 
 		}
@@ -81,8 +84,10 @@ public class GameProgram implements Runnable {
 		return new WordPass(word);
 	}
 
-	private void startTimer() {
-		// Do something in the GUI Thread
+	private void startTimer(int time) {
+		countdown = new Countdown();
+		countdown.setCount(time);
+		countdown.start();
 	}
 
 	/**

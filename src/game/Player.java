@@ -58,12 +58,10 @@ public class Player {
 	public void take(WordPass toss) {
 		System.out.println(name + " catches Word" + toss.getWordToPass());
 		String word;
+
 		do {
 			word = scn.next();
 		} while (!word.equals(toss.getWordToPass()));
-
-		increaseScore(toss.getMaxPoints());
-
 		return;
 		// 3, 2, 1 Go
 		// Start Timer

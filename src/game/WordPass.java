@@ -13,8 +13,8 @@ package game;
 public class WordPass {
 	private String wordToPass;
 	private int maxPoints;
-	private float time;
-	private byte difficulty;
+	private int time;
+	//private byte difficulty;
 
 	/**
 	 * Constructs the word, which player typed to send to the player to type it
@@ -53,8 +53,8 @@ public class WordPass {
 	 *            - The word, which the sending player typed
 	 * @return the amount of time the typing player will get
 	 */
-	private float calculateTimeToType(String word) {
-		float durancy = word.length() / GameProgram.roundNumber;
+	private int calculateTimeToType(String word) {
+		int durancy = (word.length() + 1) / GameProgram.roundNumber;
 		return durancy;
 	}
 
@@ -64,6 +64,10 @@ public class WordPass {
 
 	public int getMaxPoints() {
 		return maxPoints;
+	}
+
+	public int getTime() {
+		return time;
 	}
 
 }
