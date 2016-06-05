@@ -1,14 +1,20 @@
 package gui;
 
 import java.awt.FlowLayout;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 
 import listeners.TextFieldListener;
+
+import infrastructure.Client;
 
 /**
  * A dialog, that lets the user input the IP address and the Port of the Server
@@ -18,8 +24,8 @@ import listeners.TextFieldListener;
  * @version 0.5
  */
 public class ConnectDialog extends JDialog {
-	JTextField IPField = new JTextField(15);
-	JTextField portField = new JTextField(15);
+	private JTextField IPField = new JTextField(15);
+	private JTextField portField = new JTextField(15);
 
 	/**
 	 * Constructs the Dialog and makes it Visible
@@ -46,7 +52,12 @@ public class ConnectDialog extends JDialog {
 		add(IPField, FlowLayout.LEFT);
 		
 		// Add Listeners
-		connectBtn.addActionListener(connect -> connectToHost());
+		connectBtn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				connectToHost();
+			}
+		}); 
 		IPField.addFocusListener(new TextFieldListener("Enter IP", IPField));
 		portField.addFocusListener(new TextFieldListener("Enter Port", portField));
 		
@@ -57,7 +68,19 @@ public class ConnectDialog extends JDialog {
 	}
 	//Creates Socket and connects to the Host
 	private void connectToHost() {
-		//TODO: Create Socket and connect to the Game
+		try {
+			Socket hero = new Socket(InetAddress.getByName(IPField.getText()), Integer.parseInt(portField.getText()));
+			Client client = new Client(hero);
+		} catch (NumberFormatException e) {
+			// TODO Notify the user, that only numbers are allowed
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Cannot connect to host, so a solution would be to repeat
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Doesn't get input from host ??
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {

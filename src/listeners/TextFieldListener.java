@@ -34,7 +34,6 @@ public class TextFieldListener implements FocusListener {
 	/**
 	 * Empties the textField, when the textField was in default state
 	 */
-	@Override
 	public void focusGained(FocusEvent e) {
 		if (textField.getText().equals(defaultText))
 			textField.setText("");
@@ -44,7 +43,6 @@ public class TextFieldListener implements FocusListener {
 	 * When the textField is empty and the focus is lost, the textField jumps in
 	 * its default state
 	 */
-	@Override
 	public void focusLost(FocusEvent e) {
 		if (textField.getText().equals("")) {
 			textField.setText(defaultText);

@@ -18,6 +18,7 @@ public class Countdown extends Thread {
 	/**
 	 * The executed commands, when the clock is started
 	 */
+	
 	@Override
 	public void run() {
 		while (count >= 0) {

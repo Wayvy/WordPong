@@ -1,13 +1,22 @@
 package gui;
 
+
+import infrastructure.PlayerController;
+
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 
 import listeners.TextFieldListener;
 
@@ -42,7 +51,12 @@ public class HostDialog extends JDialog {
 
 		// Adds Listeners
 		addressField.addFocusListener(new TextFieldListener("Enter Port", addressField));
-		hostBtn.addActionListener(HostServer -> host());
+		hostBtn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				host();
+			}
+		});
 
 		// Sets Configurations
 		setSize(200, 100);
@@ -67,11 +81,16 @@ public class HostDialog extends JDialog {
 			hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
 			hostInfo.setEditable(false);
 			add(hostInfo);
-
-			// TODO: Create ServerSocket and connect Program to Socket,
+			ServerSocket host = new ServerSocket(11200,100);
+			Socket nemesis = host.accept();
+			PlayerController playerController= new PlayerController(host, nemesis);
 			// Threads!!
 
 		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Something with the Socket");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
