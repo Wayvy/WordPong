@@ -7,12 +7,16 @@ package game;
  * @author Wavy
  * @version 0.50
  */
-public class GameProgram implements Runnable {
+public class GameProgram extends Thread{
 	public static byte roundNumber;
 	public static Countdown countdown;
-	private Player player1;
-	private Player player2;
+	private Player[] players;
 
+	public void GameProgram(int numberOfPlayers)
+	{
+		players = new Player[numberOfPlayers];
+	}
+	
 	@Override
 	public void run() {
 		initiateGame();
@@ -25,8 +29,8 @@ public class GameProgram implements Runnable {
 	 */
 	private void initiateGame() {
 		roundNumber = 1;
-		player1 = new Player("Player1");
-		player2 = new Player("Player2");
+		players[0] = new Player("Player1");
+		players[1] = new Player("Player2");
 	}
 
 	/**
@@ -39,22 +43,22 @@ public class GameProgram implements Runnable {
 		 */
 		while (true) {
 			do {
-				word = player1.pickWord();
+				word = players[0].pickWord();
 			} while (!IsInDataBase(word));
 
 			WordPass pass = toss(word);
 			startTimer(pass.getTime());
-			player2.take(pass);
-			player2.increaseScore(countdown.stopCountdown());
+			players[1].take(pass);
+			players[1].increaseScore(countdown.stopCountdown());
 
 			do {
-				word = player2.pickWord();
+				word = players[1].pickWord();
 			} while (!IsInDataBase(word));
 
 			pass = toss(word);
 			startTimer(pass.getTime());
-			player1.take(pass);
-			player1.increaseScore(countdown.stopCountdown());
+			players[0].take(pass);
+			players[0].increaseScore(countdown.stopCountdown());
 			nextRound();
 
 		}
@@ -95,8 +99,8 @@ public class GameProgram implements Runnable {
 	 */
 	private void nextRound() {
 		roundNumber++;
-		System.out.println(player1.getName() + " " + player1.getScore());
-		System.out.println(player2.getName() + " " + player2.getScore());
+		System.out.println(players[0].getName() + " " + players[0].getScore());
+		System.out.println(players[1].getName() + " " + players[1].getScore());
 
 	}
 
