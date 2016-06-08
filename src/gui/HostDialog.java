@@ -26,8 +26,8 @@ import listeners.TextFieldListener;
  * player connect to the host. While waiting the Information to connect will be
  * output at the HostGUI
  * 
- * @author Wavy
- * @version 0.5
+ * @author Wavy, Fjiz
+ * @version 0.6
  */
 public class HostDialog extends JDialog {
 
@@ -36,13 +36,12 @@ public class HostDialog extends JDialog {
 
 	/**
 	 * Opens a Dialog, that asks for a Port number
-	 * 
-	 * @param title
-	 *            - The Title of the Dialog
+	 * fix dialog name "Host Server"
 	 */
-	public HostDialog(String title) {
+	public HostDialog() {
 		// Sets Layout
-		setTitle(title);
+		setTitle("Host Server");
+		setModal(true);
 		setLayout(new FlowLayout());
 
 		// Adds Components
@@ -97,7 +96,7 @@ public class HostDialog extends JDialog {
 	}
 
 	public static void main(String[] args) {
-		new HostDialog("Host Server");
+		new HostDialog();
 
 	}
 }
