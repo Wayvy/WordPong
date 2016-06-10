@@ -33,15 +33,18 @@ public class HostDialog extends JDialog {
 
 	private JTextField addressField = new JTextField(15);
 	private JButton hostBtn = new JButton("Host Server");
-
+	private int port;
 	/**
 	 * Opens a Dialog, that asks for a Port number
 	 * fix dialog name "Host Server"
+	 * checks if input is a valid port number
 	 */
-	public HostDialog() {
+	public HostDialog(GameFrame gframe) {
 		// Sets Layout
+		super(gframe);
 		setTitle("Host Server");
 		setModal(true);
+		setLocationRelativeTo(gframe);
 		setLayout(new FlowLayout());
 
 		// Adds Components
@@ -53,7 +56,18 @@ public class HostDialog extends JDialog {
 		hostBtn.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg0) {
-				host();
+				try{
+					port = Integer.parseInt(addressField.getText());
+					if(port < 1025){
+						addressField.setText("invalid port");
+					}
+					else{
+						host();
+					}
+				} catch(NumberFormatException f){
+					addressField.setText("invalid input");
+					}
+					
 			}
 		});
 
@@ -68,7 +82,9 @@ public class HostDialog extends JDialog {
 	 * the server
 	 */
 	private void host() {
-		int port = Integer.parseInt(addressField.getText());
+		
+	
+		
 		try {
 			String hostIP = InetAddress.getLocalHost().getHostAddress();
 			// Adjust Dialog
@@ -80,15 +96,17 @@ public class HostDialog extends JDialog {
 			hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
 			hostInfo.setEditable(false);
 			add(hostInfo);
-			ServerSocket host = new ServerSocket(11200,100);
+			ServerSocket host = new ServerSocket(port,100);
 			Socket nemesis = host.accept();
 			PlayerController playerController= new PlayerController(host, nemesis);
+			playerController.start();
 			// Threads!!
 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
+			System.out.println("Unknown Host Socket");
 		} catch (IOException e) {
-			System.out.println("Something with the Socket");
+			System.out.println("IO Exception Socket");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -96,7 +114,7 @@ public class HostDialog extends JDialog {
 	}
 
 	public static void main(String[] args) {
-		new HostDialog();
+//		new HostDialog();
 
 	}
 }

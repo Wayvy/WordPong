@@ -20,30 +20,32 @@ import javax.swing.JTextField;
 public class GameFrame extends JFrame {
 
 	// Classmember
-	JTextField playType = new JTextField(20);
-	Dimension mainFrame = new Dimension(200, 500);
-	JButton btn = new JButton("main button");
-	JPanel backPane = new JPanel();
-	JLabel infoLabel = new JLabel("Press Start");
-//	JLabel responseLabel = new JLabel("");
-	
+	private JTextField playType = new JTextField(20);
+	private Dimension mainFrame = new Dimension(200, 500);
+	private JButton btn = new JButton("main button");
+	private JPanel backPane = new JPanel();
+	private JLabel infoLabel = new JLabel("Press Start");
+	JLabel responseLabel = new JLabel("");
+	private GameFrame gframe;
+	private FrameStates states;
 	
 	
 	public GameFrame() {
 		super("WordPong");
-		
+		gframe = this;
 		
 		backPane.setLayout(new BoxLayout(backPane, BoxLayout.Y_AXIS));
 		infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-//		responseLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		responseLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-		infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		
 		backPane.add(Box.createRigidArea(new Dimension(0,5)));
 		backPane.add(infoLabel);
-//		backPane.add(Box.createRigidArea(new Dimension(0,5)));
-//		backPane.add(responseLabel);
 		backPane.add(Box.createRigidArea(new Dimension(0,5)));
 		backPane.add(playType);
+		backPane.add(Box.createRigidArea(new Dimension(0,5)));
+		backPane.add(responseLabel);
 		backPane.add(Box.createRigidArea(new Dimension(0,5)));
 		backPane.add(btn);
 		
@@ -67,10 +69,12 @@ public class GameFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new HostDialog();
+				new HostDialog(gframe);
 				
 			}
 		});
+		
+		states = new FrameStates(gframe);
 		
 		// Make it visible
 		setResizable(true);
@@ -80,4 +84,26 @@ public class GameFrame extends JFrame {
 		setVisible(true);
 	}
 
+
+	public void setPlayType(String playTxt) {
+		this.playType.setText(playTxt);
+	}
+
+
+	public void setBtnTxt(String btnTxt) {
+		this.btn.setText(btnTxt);
+	}
+
+
+	public void setInfoTxt(String infoTxt) {
+		this.infoLabel.setText(infoTxt);
+	}
+
+
+	public void setResponseTxt(String responseTxt) {
+		this.responseLabel.setText(responseTxt);
+	}
+
+	
+	
 }
