@@ -4,17 +4,18 @@ package game;
  * The GameProgram Class contains the procedure for the game, it sets up the
  * rules and mechanics for the Game.
  * 
- * @author Wavy
- * @version 0.50
+ * @author Wavy, (fjiz)
+ * @version 0.51
  */
 public class GameProgram extends Thread{
+	
 	public static byte roundNumber;
 	public static Countdown countdown;
 	private Player[] players;
 
-	public void GameProgram(int numberOfPlayers)
+	public GameProgram(int numberOfPlayers)
 	{
-		players = new Player[numberOfPlayers];
+		this.players = new Player[numberOfPlayers];
 	}
 	
 	@Override

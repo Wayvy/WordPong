@@ -47,7 +47,6 @@ public class TextFieldListener implements FocusListener {
 		if (textField.getText().equals("")) {
 			textField.setText(defaultText);
 		}
-
 	}
 
 }

@@ -20,12 +20,11 @@ import javax.swing.JTextField;
 public class GameFrame extends JFrame {
 
 	// Classmember
-	private JTextField playType = new JTextField(20);
-	private Dimension mainFrame = new Dimension(200, 500);
-	private JButton btn = new JButton("main button");
 	private JPanel backPane = new JPanel();
-	private JLabel infoLabel = new JLabel("Press Start");
-	JLabel responseLabel = new JLabel("");
+	private JTextField playType = new JTextField(20);
+	private JButton btn = new JButton();
+	private JLabel infoLabel = new JLabel();
+	private JLabel responseLabel = new JLabel("");
 	private GameFrame gframe;
 	private FrameStates states;
 	
@@ -49,11 +48,9 @@ public class GameFrame extends JFrame {
 		backPane.add(Box.createRigidArea(new Dimension(0,5)));
 		backPane.add(btn);
 		
-		
-		
 		add(backPane);
 
-		// Adding Menu
+		// Adding Menu for rules.
 		JMenuBar menu = new JMenuBar();
 		setJMenuBar(menu);
 		
@@ -73,37 +70,50 @@ public class GameFrame extends JFrame {
 				
 			}
 		});
-		
+
+		// produce all frame states call first
 		states = new FrameStates(gframe);
+		states.initFrame();
 		
 		// Make it visible
 		setResizable(true);
-//		setPreferredSize(mainFrame);
 		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 
+	// Getter und Setter
 
-	public void setPlayType(String playTxt) {
-		this.playType.setText(playTxt);
+	public JTextField getPlayType() {
+		return playType;
 	}
 
-
-	public void setBtnTxt(String btnTxt) {
-		this.btn.setText(btnTxt);
+	public void setPlayType(JTextField playType) {
+		this.playType = playType;
 	}
 
-
-	public void setInfoTxt(String infoTxt) {
-		this.infoLabel.setText(infoTxt);
+	public JButton getBtn() {
+		return btn;
 	}
 
-
-	public void setResponseTxt(String responseTxt) {
-		this.responseLabel.setText(responseTxt);
+	public void setBtn(JButton btn) {
+		this.btn = btn;
 	}
 
-	
-	
+	public JLabel getInfoLabel() {
+		return infoLabel;
+	}
+
+	public void setInfoLabel(JLabel infoLabel) {
+		this.infoLabel = infoLabel;
+	}
+
+	public JLabel getResponseLabel() {
+		return responseLabel;
+	}
+
+	public void setResponseLabel(JLabel responseLabel) {
+		this.responseLabel = responseLabel;
+	}
+
 }
