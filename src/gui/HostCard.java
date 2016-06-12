@@ -94,7 +94,7 @@ public class HostCard extends JPanel {
 			// Alles folgende findet erst mit Client statt 'fjiz'
 
 			ConnectionController playerController = new ConnectionController();
-			playerController.start();
+			playerController.hostGame();
 			// Threads!!
 
 		} catch (UnknownHostException e) {
