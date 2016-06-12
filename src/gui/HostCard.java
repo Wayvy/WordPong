@@ -1,6 +1,6 @@
 package gui;
 
-import infrastructure.PlayerController;
+import infrastructure.ConnectionController;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -96,7 +96,7 @@ public class HostCard extends JPanel {
 
 			// Alles folgende findet erst mit Client statt 'fjiz'
 
-			PlayerController playerController = new PlayerController(host, nemesis);
+			ConnectionController playerController = new ConnectionController(host, nemesis);
 			playerController.start();
 			// Threads!!
 
