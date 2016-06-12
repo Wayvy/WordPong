@@ -89,14 +89,11 @@ public class HostCard extends JPanel {
 			add(hostInfo, FlowLayout.LEFT);
 			String hostIP = InetAddress.getLocalHost().getHostAddress();
 			hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
-			//
-			ServerSocket host = new ServerSocket(port, 1);
-			System.out.println("test"); // TESTTOKEN
-			Socket nemesis = host.accept();
+
 
 			// Alles folgende findet erst mit Client statt 'fjiz'
 
-			ConnectionController playerController = new ConnectionController(host, nemesis);
+			ConnectionController playerController = new ConnectionController();
 			playerController.start();
 			// Threads!!
 

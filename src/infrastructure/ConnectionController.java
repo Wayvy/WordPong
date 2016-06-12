@@ -15,19 +15,27 @@ public class ConnectionController extends Thread
 	private OutputStream putputStream;
 	private PrintWriter writer;
 	
-	public ConnectionController(ServerSocket host, Socket nemesis)
+	public ConnectionController()
+	{	
+	}
+	@Override 
+	public void run()
 	{
 		try {
+			System.out.print("Host Game");
+			ServerSocket host = new ServerSocket(11200,100);
+			Socket nemesis = host.accept();
 			inputStream = nemesis.getInputStream();
 			reader = new Scanner(inputStream);
 			putputStream = nemesis.getOutputStream();
 			writer = new PrintWriter(putputStream);
-			
 		} catch (IOException e) {
 			// TODO Maybe the client has to resend the dataStreams
 			e.printStackTrace();
 		}
-		
-		
+		writer.println("Hello i Am Host");
+		writer.flush();
+		String message = reader.nextLine();
+		System.out.println(message);
 	}
 }
