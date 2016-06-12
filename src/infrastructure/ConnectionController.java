@@ -10,10 +10,10 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ConnectionController extends Thread {
-	private InputStream inputStream;
-	private Scanner reader;
-	private OutputStream putputStream;
-	private PrintWriter writer;
+	//private InputStream inputStream;
+	//private Scanner reader;
+	//private OutputStream putputStream;
+	//private PrintWriter writer;
 	private Socket nemesis;
 	private int port;
 	private String address;
@@ -48,12 +48,12 @@ public class ConnectionController extends Thread {
 					System.out.print("Host Game");
 					ServerSocket host = new ServerSocket(port, 100);
 					nemesis = host.accept();
-					putputStream = nemesis.getOutputStream();
-					writer = new PrintWriter(putputStream);
+					OutputStream putputStream = nemesis.getOutputStream();
+					PrintWriter writer = new PrintWriter(putputStream);
 					writer.println("Hello i Am Host");
 					writer.flush();
-					inputStream = nemesis.getInputStream();
-					reader = new Scanner(inputStream);
+					InputStream inputStream = nemesis.getInputStream();
+					Scanner reader = new Scanner(inputStream);
 					String message = reader.nextLine();
 					System.out.println(message);
 				} catch (IOException e) {
@@ -84,8 +84,12 @@ public class ConnectionController extends Thread {
 					nemesis = new Socket(InetAddress.getByName(address), port);
 					System.out.println(nemesis);
 					
+					//Erhalte Nachricht
 					InputStream inputStr = nemesis.getInputStream();
 					Scanner input = new Scanner(inputStr);
+					OutputStream putputStream = nemesis.getOutputStream();
+					PrintWriter writer = new PrintWriter(putputStream);
+					
 					String message = input.nextLine();
 					System.out.println("RECEIVED MESSAGE: " + message);
 					
@@ -93,11 +97,15 @@ public class ConnectionController extends Thread {
 					System.out.println("Message: " + message);
 
 					
-					putputStream = nemesis.getOutputStream();
-					writer = new PrintWriter(putputStream);
 					
 					writer.write("Hello I am Client");
 					writer.flush();
+					
+					
+					input.close();
+					writer.close();
+					nemesis.close();
+					
 				} catch (IOException e) {
 					// TODO Something with the IOStreams is wrong, how can that
 					// be solved??
