@@ -57,13 +57,13 @@ public class StartDialog extends JDialog implements ActionListener {
 
 		// the host card
 		HostCard hostDialog = new HostCard();
-		JoinCard joinDialog = new JoinCard();
+		ClientCard clientCard = new ClientCard();
 
 		
 		// creating the CardLayout
 		cards = new JPanel(new CardLayout());
 		cards.add(hostDialog, "card1");
-		cards.add(joinDialog, "card2");
+		cards.add(clientCard, "card2");
 
 		pane.add(radioButtonPane, BorderLayout.PAGE_START);
 		pane.add(cards, BorderLayout.CENTER);
