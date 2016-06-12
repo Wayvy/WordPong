@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -17,7 +18,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class GameFrame extends JFrame {
+public class GameFrame extends JFrame implements Runnable{
 
 	// Classmember
 	private JPanel backPane = new JPanel();
@@ -66,7 +67,7 @@ public class GameFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new HostDialog(gframe);
+				new StartDialog(gframe);
 				
 			}
 		});
@@ -74,12 +75,15 @@ public class GameFrame extends JFrame {
 		// produce all frame states call first
 		states = new FrameStates(gframe);
 		states.initFrame();
+	}
+	
+	private static void createAndShowGUI(){
+		GameFrame gframe = new GameFrame();
+		gframe.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		gframe.setResizable(true);
+		gframe.pack();
+		gframe.setVisible(true);
 		
-		// Make it visible
-		setResizable(true);
-		pack();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setVisible(true);
 	}
 
 	// Getter und Setter
@@ -116,4 +120,16 @@ public class GameFrame extends JFrame {
 		this.responseLabel = responseLabel;
 	}
 
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		}
+	
+	public static void main(String[] args) {
+		javax.swing.SwingUtilities.invokeLater(new Runnable(){
+			public void run(){
+				createAndShowGUI();
+			}
+		});
+	}
 }
