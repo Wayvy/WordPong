@@ -31,7 +31,7 @@ public class ConnectionController extends Thread {
 	 */
 	public void hostGame() {
 		System.out.println("It hosts");
-		new Runnable() {
+		Thread hostThread = new Thread() {
 
 			@Override
 			public void run() {
@@ -51,11 +51,11 @@ public class ConnectionController extends Thread {
 				writer.flush();
 				String message = reader.nextLine();
 				System.out.println(message);
-			}
-
+				}
 		};
-
+		hostThread.start();
 	}
+
 
 	/**
 	 * Joining an already existing host 
