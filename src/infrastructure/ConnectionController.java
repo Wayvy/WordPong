@@ -14,6 +14,8 @@ public class ConnectionController extends Thread {
 	private OutputStream putputStream;
 	private PrintWriter writer;
 	private Socket nemesis;
+	private int port;
+	private String address;
 
 	/**
 	 * The Connection controller handles the hosting and the joining of one player to another.
@@ -21,7 +23,13 @@ public class ConnectionController extends Thread {
 	 * and the check the connection to the other player.
 	 * Also the start of the game should be initiated in here.
 	 */
-	public ConnectionController() {
+	public ConnectionController(int port) {
+		this.port = port;
+	}
+	
+	public ConnectionController(int port, String address) {
+		this.address = address;
+		this.port = port;
 	}
 
 	/**
@@ -31,7 +39,7 @@ public class ConnectionController extends Thread {
 	 */
 	public void hostGame() {
 		System.out.println("It hosts");
-		new Runnable() {
+		Thread hostThread = new Thread() {
 
 //			@Override
 			public void run() {
@@ -51,9 +59,13 @@ public class ConnectionController extends Thread {
 				writer.flush();
 				String message = reader.nextLine();
 				System.out.println(message);
-			}
+			};
+			
 
 		};
+		
+		hostThread.start();
+		
 
 	}
 
@@ -61,12 +73,14 @@ public class ConnectionController extends Thread {
 	 * Joining an already existing host 
 	 */
 	public void joinGame() {
-		new Runnable() {
+		System.out.println("Joing");
+		Thread joinThread = new Thread() {
 
 //			@Override
 			public void run() {
 
 				try {
+					nemesis = new Socket(address, port);
 					inputStream = nemesis.getInputStream();
 					reader = new Scanner(inputStream);
 					putputStream = nemesis.getOutputStream();
@@ -79,5 +93,7 @@ public class ConnectionController extends Thread {
 
 			}
 		};
+		
+		joinThread.start();
 	}
 }
