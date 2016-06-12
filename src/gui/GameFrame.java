@@ -65,7 +65,7 @@ public class GameFrame extends JFrame implements Runnable{
 
 		btn.addActionListener(new ActionListener() {
 			
-			@Override
+//			@Override
 			public void actionPerformed(ActionEvent e) {
 				new StartDialog(gframe);
 				
@@ -120,7 +120,7 @@ public class GameFrame extends JFrame implements Runnable{
 		this.responseLabel = responseLabel;
 	}
 
-	@Override
+//	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		}
