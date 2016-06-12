@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.FlowLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -14,7 +15,6 @@ import javax.swing.JTextField;
 
 import listeners.TextFieldListener;
 
-import infrastructure.Client;
 
 /**
  * A dialog, that lets the user input the IP address and the Port of the Server
@@ -23,6 +23,7 @@ import infrastructure.Client;
  * @author Wavy
  * @version 0.5
  */
+
 public class ConnectDialog extends JDialog {
 	private JTextField IPField = new JTextField(15);
 	private JTextField portField = new JTextField(15);
@@ -33,6 +34,7 @@ public class ConnectDialog extends JDialog {
 	 * @param title
 	 *            - The title of the Dialog
 	 */
+	/* Outdated
 	public ConnectDialog(String title) {
 		
 		// Set Layout
@@ -70,7 +72,6 @@ public class ConnectDialog extends JDialog {
 	private void connectToHost() {
 		try {
 			Socket hero = new Socket(InetAddress.getByName(IPField.getText()), Integer.parseInt(portField.getText()));
-			Client client = new Client(hero);
 		} catch (NumberFormatException e) {
 			// TODO Notify the user, that only numbers are allowed
 			e.printStackTrace();
@@ -82,8 +83,10 @@ public class ConnectDialog extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static void main(String[] args) {
 		new ConnectDialog("Connect To Host");
 	}
+	*/
 }
+

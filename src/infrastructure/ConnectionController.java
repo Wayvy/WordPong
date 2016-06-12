@@ -15,12 +15,19 @@ public class ConnectionController extends Thread {
 	private PrintWriter writer;
 	private Socket nemesis;
 
+	/**
+	 * The Connection controller handles the hosting and the joining of one player to another.
+	 * The methods hostGame and joinGame create new Runnable's, that will run in the background 
+	 * and the check the connection to the other player.
+	 * Also the start of the game should be initiated in here.
+	 */
 	public ConnectionController() {
 	}
 
 	/**
-	 * A Method, that runs in the Background, to host the game and lets other
-	 * people connect to this Socket
+	 * Host the game and lets other people connect to this Socket.
+	 * Runs in the background, and checks the connection and creates the 
+	 * GameThread, once the connection to the other player has been accepted.
 	 */
 	public void hostGame() {
 		System.out.println("It hosts");
@@ -37,7 +44,7 @@ public class ConnectionController extends Thread {
 					putputStream = nemesis.getOutputStream();
 					writer = new PrintWriter(putputStream);
 				} catch (IOException e) {
-					// TODO Maybe the client has to resend the dataStreams
+					// TODO Maybe the client has to resends the dataStreams
 					e.printStackTrace();
 				}
 				writer.println("Hello i Am Host");
@@ -50,6 +57,9 @@ public class ConnectionController extends Thread {
 
 	}
 
+	/**
+	 * Joining an already existing host 
+	 */
 	public void joinGame() {
 		new Runnable() {
 

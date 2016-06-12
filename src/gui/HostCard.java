@@ -79,11 +79,9 @@ public class HostCard extends JPanel {
 
 		try {
 
-			// Adjust Dialog < funktioniert nicht 'Fjiz'
 			hostBtn.setVisible(false);
 			addressField.setVisible(false);
 
-			// Create HostInfo < funktioniert nicht 'Fjiz'
 			hostInfo = new JTextArea(2, 3);
 			hostInfo.setEditable(false);
 			add(hostInfo, FlowLayout.LEFT);
@@ -91,11 +89,11 @@ public class HostCard extends JPanel {
 			hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
 
 
-			// Alles folgende findet erst mit Client statt 'fjiz'
+			// Alles folgende findet nun im ConnectionController statt 'Wavy'
 
 			ConnectionController playerController = new ConnectionController();
 			playerController.hostGame();
-			// Threads!!
+
 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
