@@ -23,7 +23,8 @@ import listeners.TextFieldListener;
  */
 public class HostCard extends JPanel {
 
-	private JTextField addressField = new JTextField(15);
+	private JTextField portField = new JTextField(15);
+	private JTextField nameField = new JTextField(15);
 	private JButton hostBtn = new JButton("Host Server");
 	private JTextArea hostInfo;
 	private int port;
@@ -37,29 +38,32 @@ public class HostCard extends JPanel {
 	 */
 	public HostCard() {
 
-		addressField.setText("11200");
+		portField.setText("11200");
+		
 
 		// Sets Layout
 		setLayout(new FlowLayout());
 
 		// Adds Components
 		add(hostBtn, FlowLayout.LEFT);
-		add(addressField, FlowLayout.LEFT);
+		add(portField, FlowLayout.LEFT);
+		add(nameField, FlowLayout.LEFT);
 
 		// Adds Listeners
-		addressField.addFocusListener(new TextFieldListener("Enter Port", addressField));
+		portField.addFocusListener(new TextFieldListener("Enter Port", portField));
+		nameField.addFocusListener(new TextFieldListener("Enter Name", nameField));
 
 		hostBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					port = Integer.parseInt(addressField.getText());
+					port = Integer.parseInt(portField.getText());
 					if (port < 1025) {
-						addressField.setText("invalid port");
+						portField.setText("invalid port");
 					} else {
 						host();
 					}
 				} catch (NumberFormatException f) {
-					addressField.setText("invalid input");
+					portField.setText("invalid input");
 				}
 
 			}
@@ -73,7 +77,7 @@ public class HostCard extends JPanel {
 	private void host() {
 
 		hostBtn.setVisible(false);
-		addressField.setVisible(false);
+		portField.setVisible(false);
 
 		hostInfo = new JTextArea(2, 3);
 		hostInfo.setEditable(false);

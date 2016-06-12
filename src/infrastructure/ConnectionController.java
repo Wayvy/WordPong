@@ -8,6 +8,13 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.TimeoutException;
+
+/**
+ * Handles connecting every request to join a server or host one.
+ * @author Wavy
+ * @version 0.7
+ */
 
 public class ConnectionController extends Thread {
 	private InputStream inputStream;
@@ -50,23 +57,31 @@ public class ConnectionController extends Thread {
 					ServerSocket host = new ServerSocket(port, 100);
 					nemesis = host.accept();
 
-					// Setup Sending Messages + Send a Message
-					putputStream = nemesis.getOutputStream();
-					writer = new PrintWriter(putputStream);
-					writer.println("Hello i Am Host");
+
+					setupFileIO();
+					
+					// Ask for Clients Name
+					writer.println("Please enter your Name");
 					writer.flush();
 
-					// Setup receiving messages + get a message
-					inputStream = nemesis.getInputStream();
-					reader = new Scanner(inputStream);
-					String message = reader.nextLine();
-					System.out.println("Received: " + message);
+					//Welcoming message
+					String name = reader.nextLine();
+					writer.println("Hello, " + name + " !");
+					writer.flush();
+					
+					while(true)
+					{
+						if(Thread.interrupted())
+							break;
+					}
+					host.close();
 				} catch (IOException e) {
 					// TODO Maybe the client has to resends the dataStreams
 					e.printStackTrace();
 				} finally {
 					reader.close();
 					writer.close();
+					
 					try {
 						nemesis.close();
 					} catch (IOException e) {
@@ -74,7 +89,7 @@ public class ConnectionController extends Thread {
 						e.printStackTrace();
 					}
 				}
-				writer.println("Hello i Am Host");
+				writer.println("Please enter your Name");
 				writer.flush();
 				String message = reader.nextLine();
 				System.out.println(message);
@@ -98,20 +113,17 @@ public class ConnectionController extends Thread {
 					System.out.println(port);
 					nemesis = new Socket(InetAddress.getByName(address), port);
 					System.out.println(nemesis);
-
-					// Setup receiving Messages
-					inputStream = nemesis.getInputStream();
-					reader = new Scanner(inputStream);
-
-					// Setup sending Messages
-					putputStream = nemesis.getOutputStream();
-					writer = new PrintWriter(putputStream);
-
+					
+					setupFileIO();
+					
 					String message = reader.nextLine();
-					System.out.println("RECEIVED MESSAGE: " + message);
-
-					writer.write("Hello I am Client");
+					System.out.println(message);
+					
+					Scanner keyBoardScn = new Scanner(System.in);
+					
+					writer.write(keyBoardScn.nextLine());
 					writer.flush();
+					keyBoardScn.close();
 
 				} catch (IOException e) {
 					// TODO Something with the IOStreams is wrong, how can that
@@ -134,4 +146,23 @@ public class ConnectionController extends Thread {
 
 		joinThread.start();
 	}
+	
+	private void setupFileIO()
+	{
+		try {
+			// Setup receiving Messages
+			inputStream = nemesis.getInputStream();
+			reader = new Scanner(inputStream);
+
+			// Setup sending Messages
+			putputStream = nemesis.getOutputStream();
+			writer = new PrintWriter(putputStream);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+	
 }
