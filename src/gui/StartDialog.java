@@ -71,7 +71,7 @@ public class StartDialog extends JDialog implements ActionListener {
 
 	}
 
-	@Override
+//	@Override
 	public void actionPerformed(ActionEvent e) {
 		CardLayout cl = (CardLayout) (cards.getLayout());
 		if (e.getSource() == hostBtn) {

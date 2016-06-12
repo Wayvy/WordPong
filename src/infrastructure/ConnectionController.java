@@ -33,7 +33,7 @@ public class ConnectionController extends Thread {
 		System.out.println("It hosts");
 		new Runnable() {
 
-			@Override
+//			@Override
 			public void run() {
 				try {
 					System.out.print("Host Game");
@@ -63,7 +63,7 @@ public class ConnectionController extends Thread {
 	public void joinGame() {
 		new Runnable() {
 
-			@Override
+//			@Override
 			public void run() {
 
 				try {

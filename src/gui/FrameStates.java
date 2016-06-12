@@ -1,10 +1,11 @@
 package gui;
 
 import javax.swing.JButton;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import javafx.scene.paint.Color;
+//import javafx.scene.paint.Color;
 
 /**
  * A class listing all possible recurring states the game can have. Each state
