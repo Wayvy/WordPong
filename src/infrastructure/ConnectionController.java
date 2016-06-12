@@ -89,10 +89,6 @@ public class ConnectionController extends Thread {
 						e.printStackTrace();
 					}
 				}
-				writer.println("Please enter your Name");
-				writer.flush();
-				String message = reader.nextLine();
-				System.out.println(message);
 			}
 		};
 		hostThread.start();
@@ -120,28 +116,25 @@ public class ConnectionController extends Thread {
 					System.out.println(message);
 					
 					Scanner keyBoardScn = new Scanner(System.in);
-					
-					writer.write(keyBoardScn.nextLine());
+					message = keyBoardScn.nextLine();
+					writer.write(message);
 					writer.flush();
 					keyBoardScn.close();
-
+					message = reader.nextLine();
+					System.out.println(message);
+					reader.close();
+					writer.close();
+					nemesis.close();
+					
 				} catch (IOException e) {
 					// TODO Something with the IOStreams is wrong, how can that
 					// be solved??
 					e.printStackTrace();
-				} finally {
-					reader.close();
-					writer.close();
-					try {
-						nemesis.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				} 
 
 				}
 
-			}
+			
 		};
 
 		joinThread.start();

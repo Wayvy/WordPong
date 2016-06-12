@@ -9,3 +9,12 @@ One main button and a state schema , are concepts that fjiz wants to implement.
 A Dialog should be created, to connect or host a game.
 
 Wavy wants to have one ConnectionController to handle all the Socket stuff.
+
+
+Still to do:
+
+Sockets only work half heartly. The next Step would be to connect the game with the Sockets.
+
+Then to connect the Gui with the Game.
+
+Then maybe implement a database.

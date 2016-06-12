@@ -13,6 +13,11 @@ import javax.swing.JTextField;
 import infrastructure.ConnectionController;
 import listeners.TextFieldListener;
 
+/**
+ * 
+ * @author Fjiz
+ *
+ */
 public class ClientCard extends JPanel {
 
 	private JTextField ipField = new JTextField(15);
