@@ -6,13 +6,9 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -45,6 +41,8 @@ public class HostCard extends JPanel {
 	 */
 	public HostCard(GameFrame gframe) {
 
+		addressField.setText("22100");
+		
 		// Sets Layout
 		setLayout(new FlowLayout());
 
@@ -77,32 +75,20 @@ public class HostCard extends JPanel {
 	 */
 	private void host() {
 
-		try {
+		hostBtn.setVisible(false);
+		addressField.setVisible(false);
 
-			hostBtn.setVisible(false);
-			addressField.setVisible(false);
-
-			hostInfo = new JTextArea(2, 3);
-			hostInfo.setEditable(false);
-			add(hostInfo, FlowLayout.LEFT);
-			String hostIP = InetAddress.getLocalHost().getHostAddress();
-			hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
+		hostInfo = new JTextArea(2, 3);
+		hostInfo.setEditable(false);
+		add(hostInfo, FlowLayout.LEFT);
+		String hostIP = "192.168.0.104";
+		hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
 
 
-			// Alles folgende findet nun im ConnectionController statt 'Wavy'
+		// Alles folgende findet nun im ConnectionController statt 'Wavy'
 
-			ConnectionController playerController = new ConnectionController(port);
-			playerController.hostGame();
-
-
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			System.out.println("Unknown Host Socket");
-		} catch (IOException e) {
-			System.out.println("IO Exception Socket");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ConnectionController playerController = new ConnectionController(port);
+		playerController.hostGame();
 
 	}
 }
