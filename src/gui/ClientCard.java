@@ -72,7 +72,7 @@ public class ClientCard extends JPanel {
 
 		// Alles folgende findet nun im ConnectionController statt 'Wavy'
 
-		ConnectionController playerController = new ConnectionController();
+		ConnectionController playerController = new ConnectionController(port,hostIP);
 		playerController.joinGame();
 
 	}

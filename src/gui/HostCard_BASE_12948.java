@@ -1,15 +1,22 @@
 package gui;
 
+import infrastructure.ConnectionController;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import infrastructure.ConnectionController;
 import listeners.TextFieldListener;
 
 /**
@@ -29,15 +36,14 @@ public class HostCard extends JPanel {
 	private int port;
 
 	/**
-	 * Creates the Hostcard, that asks for a Port number and checks if the input
-	 * is a valid port number. Afterwards a new ServerSocket is created.
+	 * Creates the Hostcard, that asks for a Port number and
+	 * checks if the input is a valid port number. Afterwards
+	 * a new ServerSocket is created.
 	 * 
 	 * @param the
 	 *            parent frame
 	 */
-	public HostCard() {
-
-		addressField.setText("11200");
+	public HostCard(GameFrame gframe) {
 
 		// Sets Layout
 		setLayout(new FlowLayout());
@@ -45,11 +51,10 @@ public class HostCard extends JPanel {
 		// Adds Components
 		add(hostBtn, FlowLayout.LEFT);
 		add(addressField, FlowLayout.LEFT);
-
 		// Adds Listeners
 		addressField.addFocusListener(new TextFieldListener("Enter Port", addressField));
-
 		hostBtn.addActionListener(new ActionListener() {
+			// Bin zu bloed den Defaultfocus auf den Button zu legen
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					port = Integer.parseInt(addressField.getText());
@@ -72,17 +77,32 @@ public class HostCard extends JPanel {
 	 */
 	private void host() {
 
-		hostBtn.setVisible(false);
-		addressField.setVisible(false);
+		try {
 
-		hostInfo = new JTextArea(2, 3);
-		hostInfo.setEditable(false);
-		add(hostInfo, FlowLayout.LEFT);
-		String hostIP = "192.168.0.104";
-		hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
-		ConnectionController playerController = new ConnectionController(port);
-		playerController.hostGame();
+			hostBtn.setVisible(false);
+			addressField.setVisible(false);
+
+			hostInfo = new JTextArea(2, 3);
+			hostInfo.setEditable(false);
+			add(hostInfo, FlowLayout.LEFT);
+			String hostIP = InetAddress.getLocalHost().getHostAddress();
+			hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
+
+
+			// Alles folgende findet nun im ConnectionController statt 'Wavy'
+
+			ConnectionController playerController = new ConnectionController();
+			playerController.hostGame();
+
+
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			System.out.println("Unknown Host Socket");
+		} catch (IOException e) {
+			System.out.println("IO Exception Socket");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
-
 }
