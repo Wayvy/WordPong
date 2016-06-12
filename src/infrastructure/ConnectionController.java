@@ -10,10 +10,10 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ConnectionController extends Thread {
-	//private InputStream inputStream;
-	//private Scanner reader;
-	//private OutputStream putputStream;
-	//private PrintWriter writer;
+	private InputStream inputStream;
+	private Scanner reader;
+	private OutputStream putputStream;
+	private PrintWriter writer;
 	private Socket nemesis;
 	private int port;
 	private String address;
@@ -48,17 +48,32 @@ public class ConnectionController extends Thread {
 					System.out.print("Host Game");
 					ServerSocket host = new ServerSocket(port, 100);
 					nemesis = host.accept();
-					OutputStream putputStream = nemesis.getOutputStream();
-					PrintWriter writer = new PrintWriter(putputStream);
+					
+					//Setup Sending Messages + Send a Message
+					putputStream = nemesis.getOutputStream();
+					writer = new PrintWriter(putputStream);
 					writer.println("Hello i Am Host");
 					writer.flush();
-					InputStream inputStream = nemesis.getInputStream();
-					Scanner reader = new Scanner(inputStream);
+					
+					//Setup receiving messages + get a message
+					inputStream = nemesis.getInputStream();
+					reader = new Scanner(inputStream);
 					String message = reader.nextLine();
-					System.out.println(message);
+					System.out.println("Received: "+  message);
 				} catch (IOException e) {
 					// TODO Maybe the client has to resends the dataStreams
 					e.printStackTrace();
+				}
+				finally 
+				{
+					reader.close();
+					writer.close();
+					try {
+						nemesis.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			};
 			
@@ -84,13 +99,15 @@ public class ConnectionController extends Thread {
 					nemesis = new Socket(InetAddress.getByName(address), port);
 					System.out.println(nemesis);
 					
-					//Erhalte Nachricht
-					InputStream inputStr = nemesis.getInputStream();
-					Scanner input = new Scanner(inputStr);
-					OutputStream putputStream = nemesis.getOutputStream();
-					PrintWriter writer = new PrintWriter(putputStream);
+					//Setup receiving Messages
+					inputStream = nemesis.getInputStream();
+					reader = new Scanner(inputStream);
 					
-					String message = input.nextLine();
+					//Setup sending Messages
+					putputStream = nemesis.getOutputStream();
+					writer = new PrintWriter(putputStream);
+					
+					String message = reader.nextLine();
 					System.out.println("RECEIVED MESSAGE: " + message);
 					
 					//String message = reader.nextLine();
@@ -102,14 +119,23 @@ public class ConnectionController extends Thread {
 					writer.flush();
 					
 					
-					input.close();
-					writer.close();
-					nemesis.close();
 					
 				} catch (IOException e) {
 					// TODO Something with the IOStreams is wrong, how can that
 					// be solved??
 					e.printStackTrace();
+				}
+				finally
+				{
+					reader.close();
+					writer.close();
+					try {
+						nemesis.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 				}
 
 			}
