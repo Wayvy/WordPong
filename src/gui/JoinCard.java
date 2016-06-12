@@ -40,11 +40,11 @@ public class JoinCard extends JPanel {
 	 */
 	public JoinCard(GameFrame gframe) {
 		
-		String host = "192.168.0.104 ";
+		String host = "192.168.0.104";
 
 		//Default Settup
 		addressField.setText(host);
-		portField.setText("22100");
+		portField.setText("11200");
 		
 		// Sets Layout
 		setLayout(new FlowLayout());

@@ -41,7 +41,7 @@ public class HostCard extends JPanel {
 	 */
 	public HostCard(GameFrame gframe) {
 
-		addressField.setText("22100");
+		addressField.setText("11200");
 		
 		// Sets Layout
 		setLayout(new FlowLayout());

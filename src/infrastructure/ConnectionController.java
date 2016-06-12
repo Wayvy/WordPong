@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -45,20 +46,20 @@ public class ConnectionController extends Thread {
 			public void run() {
 				try {
 					System.out.print("Host Game");
-					ServerSocket host = new ServerSocket(11200, 100);
+					ServerSocket host = new ServerSocket(port, 100);
 					nemesis = host.accept();
-					inputStream = nemesis.getInputStream();
-					reader = new Scanner(inputStream);
 					putputStream = nemesis.getOutputStream();
 					writer = new PrintWriter(putputStream);
+					writer.println("Hello i Am Host");
+					writer.flush();
+					inputStream = nemesis.getInputStream();
+					reader = new Scanner(inputStream);
+					String message = reader.nextLine();
+					System.out.println(message);
 				} catch (IOException e) {
 					// TODO Maybe the client has to resends the dataStreams
 					e.printStackTrace();
 				}
-				writer.println("Hello i Am Host");
-				writer.flush();
-				String message = reader.nextLine();
-				System.out.println(message);
 			};
 			
 
@@ -73,18 +74,30 @@ public class ConnectionController extends Thread {
 	 * Joining an already existing host 
 	 */
 	public void joinGame() {
-		System.out.println("Joing");
 		Thread joinThread = new Thread() {
 
 //			@Override
 			public void run() {
 
 				try {
-					nemesis = new Socket(address, port);
-					inputStream = nemesis.getInputStream();
-					reader = new Scanner(inputStream);
+					System.out.println(port);
+					nemesis = new Socket(InetAddress.getByName(address), port);
+					System.out.println(nemesis);
+					
+					InputStream inputStr = nemesis.getInputStream();
+					Scanner input = new Scanner(inputStr);
+					String message = input.nextLine();
+					System.out.println("RECEIVED MESSAGE: " + message);
+					
+					//String message = reader.nextLine();
+					System.out.println("Message: " + message);
+
+					
 					putputStream = nemesis.getOutputStream();
 					writer = new PrintWriter(putputStream);
+					
+					writer.write("Hello I am Client");
+					writer.flush();
 				} catch (IOException e) {
 					// TODO Something with the IOStreams is wrong, how can that
 					// be solved??
