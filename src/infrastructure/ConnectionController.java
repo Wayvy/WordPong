@@ -61,6 +61,7 @@ public class ConnectionController extends Thread {
 	 * Joining an already existing host 
 	 */
 	public void joinGame() {
+		System.out.println("It joins");
 		new Runnable() {
 
 			@Override

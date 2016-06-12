@@ -29,13 +29,13 @@ public class TextFieldListener implements FocusListener {
 	public TextFieldListener(String defaultText, JTextField textField) {
 		this.defaultText = defaultText;
 		this.textField = textField;
+		textField.setText(defaultText);
 	}
 
 	/**
 	 * Empties the textField, when the textField was in default state
 	 */
 	public void focusGained(FocusEvent e) {
-		if (textField.getText().equals(defaultText))
 			textField.setText("");
 	}
 

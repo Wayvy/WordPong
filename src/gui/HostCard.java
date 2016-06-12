@@ -1,22 +1,16 @@
 package gui;
 
-import infrastructure.ConnectionController;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.UnknownHostException;
-
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import infrastructure.ConnectionController;
 import listeners.TextFieldListener;
 
 /**
@@ -43,7 +37,7 @@ public class HostCard extends JPanel {
 	 * @param the
 	 *            parent frame
 	 */
-	public HostCard(GameFrame gframe) {
+	public HostCard() {
 
 		// Sets Layout
 		setLayout(new FlowLayout());
@@ -51,10 +45,11 @@ public class HostCard extends JPanel {
 		// Adds Components
 		add(hostBtn, FlowLayout.LEFT);
 		add(addressField, FlowLayout.LEFT);
+		
 		// Adds Listeners
 		addressField.addFocusListener(new TextFieldListener("Enter Port", addressField));
+		
 		hostBtn.addActionListener(new ActionListener() {
-			// Bin zu bloed den Defaultfocus auf den Button zu legen
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					port = Integer.parseInt(addressField.getText());
@@ -98,11 +93,7 @@ public class HostCard extends JPanel {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			System.out.println("Unknown Host Socket");
-		} catch (IOException e) {
-			System.out.println("IO Exception Socket");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 
 	}
 }
