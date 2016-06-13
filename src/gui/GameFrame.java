@@ -17,7 +17,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+/**Creates the main frame for the game. 
+ * 
+ * @author Fjiz
+ * @version 0.4
+ */
+@SuppressWarnings("serial")
 public class GameFrame extends JFrame implements Runnable{
 
 	// Classmember
@@ -29,7 +34,14 @@ public class GameFrame extends JFrame implements Runnable{
 	private GameFrame gframe;
 	private FrameStates states;
 	
-	
+	/**
+	 * Constructor for the GameFrame. Sets the frame title, creates the layout
+	 * and an instance of FrameStates whom it calls the initFrame(). Getters and setters
+	 * for the JButton, the JLabels and the JTextField.
+	 * 
+	 * @see gui.FrameStates FrameStates()
+	 * @see gui.FrameStates#initFrame() initFrame()
+	 */
 	public GameFrame() {
 		super("WordPong");
 		gframe = this;
@@ -51,7 +63,9 @@ public class GameFrame extends JFrame implements Runnable{
 		
 		add(backPane);
 
-		// Adding Menu for rules.
+		// ToDo rules schreiben :)
+		
+		// Adding menu for rules.
 		JMenuBar menu = new JMenuBar();
 		setJMenuBar(menu);
 		
@@ -63,9 +77,10 @@ public class GameFrame extends JFrame implements Runnable{
 		JMenuItem rules = new JMenuItem("Rules");
 		about.add(rules);
 
+		// ToDo: ActionListener in FrameStates verschieben 
 		btn.addActionListener(new ActionListener() {
 			
-//			@Override
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				new StartDialog(gframe);
 				

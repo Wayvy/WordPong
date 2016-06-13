@@ -9,11 +9,11 @@ import javax.swing.JTextField;
 
 /**
  * A class listing all possible recurring states the game can have. Each state
- * is represented with a method.
+ * is represented with a method. Gets created by the GameFrame constructor.
  * 
  * @author fjiz
- * @version 0.1
- *
+ * @version 0.2
+ * @see gui.GameFrame GameFrame()
  */
 public class FrameStates {
 
@@ -25,12 +25,12 @@ public class FrameStates {
 	private JTextField playType;
 
 	/**
-	 * creates an object with methods for the frame states. and
-	 * a method for sending them to the GameFrame
+	 * Creates an object with methods for the recuring frame states. 
+	 * Also a method for sending them to the GameFrame
 	 * 
 	 * @param gframe
 	 *            The GameFrame this is responding to.
-	 * 
+	 * @see gui.GameFrame GameFrame()
 	 */
 	public FrameStates(GameFrame gframe) {
 		this.gframe = gframe;
