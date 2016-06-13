@@ -19,12 +19,11 @@ import listeners.TextFieldListener;
  * will be output at the HostGUI
  * 
  * @author Wavy, Fjiz
- * @version 0.7
+ * @version 0.71
  */
 public class HostCard extends JPanel {
 
 	private JTextField portField = new JTextField(15);
-	private JTextField nameField = new JTextField(15);
 	private JButton hostBtn = new JButton("Host Server");
 	private JTextArea hostInfo;
 	private int port;
@@ -38,7 +37,7 @@ public class HostCard extends JPanel {
 	 */
 	public HostCard() {
 
-		portField.setText("11200");
+//		portField.setText("11200");
 		
 
 		// Sets Layout
@@ -47,11 +46,9 @@ public class HostCard extends JPanel {
 		// Adds Components
 		add(hostBtn, FlowLayout.LEFT);
 		add(portField, FlowLayout.LEFT);
-		add(nameField, FlowLayout.LEFT);
 
 		// Adds Listeners
 		portField.addFocusListener(new TextFieldListener("Enter Port", portField));
-		nameField.addFocusListener(new TextFieldListener("Enter Name", nameField));
 
 		hostBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

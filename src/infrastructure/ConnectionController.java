@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
 
+import javax.swing.JOptionPane;
+
 /**
  * Handles connecting every request to join a server or host one.
  * @author Wavy
@@ -24,6 +26,8 @@ public class ConnectionController extends Thread {
 	private Socket nemesis;
 	private int port;
 	private String address;
+	private String nameHost;
+	private String nameClient;
 
 	/**
 	 * The Connection controller handles the hosting and the joining of one
@@ -55,18 +59,14 @@ public class ConnectionController extends Thread {
 				try {
 					System.out.print("Host Game");
 					ServerSocket host = new ServerSocket(port, 100);
+					nameHost = JOptionPane.showInputDialog("Please enter your name");
 					nemesis = host.accept();
-
+					
+					
 
 					setupFileIO();
 					
-					// Ask for Clients Name
-					writer.println("Please enter your Name");
-					writer.flush();
-
-					//Welcoming message
-					String name = reader.nextLine();
-					writer.println("Hello, " + name + " !");
+					writer.println("Hello, " + nameHost + " !");
 					writer.flush();
 					
 					while(true)
@@ -106,11 +106,15 @@ public class ConnectionController extends Thread {
 			public void run() {
 
 				try {
+					nameClient = JOptionPane.showInputDialog("Please enter your name");
 					System.out.println(port);
 					nemesis = new Socket(InetAddress.getByName(address), port);
 					System.out.println(nemesis);
 					
 					setupFileIO();
+					
+					writer.println("Hello, " + nameClient + " !");
+					writer.flush();
 					
 					String message = reader.nextLine();
 					System.out.println(message);
