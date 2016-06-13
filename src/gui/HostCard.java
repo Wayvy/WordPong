@@ -14,14 +14,14 @@ import listeners.TextFieldListener;
 
 /**
  * The dialogcard for hosting a game. Asks for the port the host want to use to
- * establish a connection. When pressing the hostBtn the IP and the port for the ongoing
- * server socket will be shown in hostInfo. Creates a new ConectionController calls the
- * hostGame() method
+ * establish a connection. When pressing the hostBtn the IP and the port for the
+ * ongoing server socket will be shown in hostInfo. Creates a new
+ * ConectionController calls the hostGame() method
  * 
  * @author Wavy, Fjiz
  * @version 0.72
- * @see ClientCard 
- * @see StartDialog 
+ * @see ClientCard
+ * @see StartDialog
  * @see ConnectionController
  */
 @SuppressWarnings("serial")
@@ -33,14 +33,15 @@ public class HostCard extends JPanel {
 	private int port;
 
 	/**
-	 * Creates the layout, adds the JTextField for entering the port number. When the hostBtn is clicked,
-	 * checks if the input is a valid port number. Then calls host()
+	 * Creates the layout, adds the JTextField for entering the port number.
+	 * When the hostBtn is clicked, checks if the input is a valid port number.
+	 * Then calls host()
+	 * 
 	 * @see gui.HostCard#host() host()
 	 */
 	public HostCard() {
 
-//		portField.setText("11200");
-		
+		// portField.setText("11200");
 
 		// Sets Layout
 		setLayout(new FlowLayout());
@@ -70,10 +71,11 @@ public class HostCard extends JPanel {
 	}
 
 	/**
- * Hides the input objects and shows the connection specs. Creates a new thread
- * ConnectionController and calls the hostGame() method.
- * @see ConnectionController
- * @see infrastructure.ConnectionController#hostGame() hostGame()
+	 * Hides the input objects and shows the connection specs. Creates a new
+	 * thread ConnectionController and calls the hostGame() method.
+	 * 
+	 * @see ConnectionController
+	 * @see infrastructure.ConnectionController#hostGame() hostGame()
 	 */
 	private void host() {
 
