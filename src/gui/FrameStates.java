@@ -1,9 +1,11 @@
 package gui;
 
 import javax.swing.JButton;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import infrastructure.ConnectionController;
+import listeners.ConnectioDialogioListener;
 
 //import javafx.scene.paint.Color;
 
@@ -23,6 +25,7 @@ public class FrameStates {
 	private JLabel infoLabel;
 	private JButton btn;
 	private JTextField playType;
+	private ConnectioDialogioListener openDialog = new ConnectioDialogioListener(gframe, this, new ConnectionController());
 
 	/**
 	 * creates an object with methods for the frame states. and
@@ -42,7 +45,9 @@ public class FrameStates {
 	}
 
 	public void initFrame() {
+		
 		infoLabel.setText("Press Start");
+		btn.addActionListener(openDialog);
 		responseLabel.setText("");
 		btn.setText("Start Game");
 		playType.setEditable(false);

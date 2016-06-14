@@ -8,7 +8,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.concurrent.TimeoutException;
 
 import javax.swing.JOptionPane;
 
@@ -36,6 +35,10 @@ public class ConnectionController extends Thread {
 	 * to the other player. Also the start of the game should be initiated in
 	 * here.
 	 */
+	public ConnectionController(){
+		
+	}
+	
 	public ConnectionController(int port) {
 		this.port = port;
 	}
@@ -57,18 +60,18 @@ public class ConnectionController extends Thread {
 			// @Override
 			public void run() {
 				try {
-					System.out.print("Host Game");
 					ServerSocket host = new ServerSocket(port, 100);
 					nameHost = JOptionPane.showInputDialog("Please enter your name");
 					nemesis = host.accept();
-					
-					
 
 					setupFileIO();
 					
-					writer.println("Hello, " + nameHost + " !");
+					writer.println("Hello, here is " + nameHost + " !");
 					writer.flush();
 					
+					String message = reader.nextLine();
+					System.out.println(message);
+					System.out.println("ServerStuff");
 					while(true)
 					{
 						if(Thread.interrupted())
@@ -108,24 +111,24 @@ public class ConnectionController extends Thread {
 				try {
 					nameClient = JOptionPane.showInputDialog("Please enter your name");
 					System.out.println(port);
+					
+					//Setup Socket
 					nemesis = new Socket(InetAddress.getByName(address), port);
 					System.out.println(nemesis);
 					
 					setupFileIO();
 					
-					writer.println("Hello, " + nameClient + " !");
+					//Write to Server
+					writer.println("Hello, here is " + nameClient + " !");
 					writer.flush();
 					
+					//Read from server
 					String message = reader.nextLine();
 					System.out.println(message);
+					System.out.println("Client Stuff");
 					
-					Scanner keyBoardScn = new Scanner(System.in);
-					message = keyBoardScn.nextLine();
-					writer.write(message);
-					writer.flush();
-					keyBoardScn.close();
-					message = reader.nextLine();
-					System.out.println(message);
+					new PassController(nemesis,nameClient,writer,reader);
+					
 					reader.close();
 					writer.close();
 					nemesis.close();
@@ -162,4 +165,11 @@ public class ConnectionController extends Thread {
 		
 	}
 	
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
+	public void setAddress(String address) {
+		this.address = address;
+	}
 }

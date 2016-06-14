@@ -8,9 +8,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
+import infrastructure.ConnectionController;
 /**
  * This dialog lets you choose between hosting or joining a game
  * through two RadioButtons which call for their card.
@@ -18,10 +19,11 @@ import javax.swing.JRadioButton;
  * @author Fjiz
  * @version 0.1
  */
-public class StartDialog extends JDialog implements ActionListener {
+public class ConnectDialog extends JDialog implements ActionListener {
 	
-	private GameFrame gframe;
+//	private GameFrame gframe;
 	private JPanel cards;
+	private ConnectionController connectionController; 
 	JRadioButton hostBtn = new JRadioButton("Host Game", true);
 	JRadioButton joinBtn = new JRadioButton("Join Game", false);
 	
@@ -29,12 +31,14 @@ public class StartDialog extends JDialog implements ActionListener {
 	 * by default.
 	 * 
 	 * @param gframe - the parent which invokes the dialog
+	 * @param states 
 	 */
-	public StartDialog(GameFrame gframe) {
+	public ConnectDialog(GameFrame gframe, FrameStates states, ConnectionController connectionController) {
 		super(gframe);
-		this.gframe = gframe;
+//		this.gframe = gframe;
+		this.connectionController = connectionController;
 
-		addComponentToPane(getContentPane());
+		addComponentToPane(getContentPane(), states);
 		setModal(true);
 		setLocationRelativeTo(gframe);
 		pack();
@@ -42,7 +46,7 @@ public class StartDialog extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 
-	public void addComponentToPane(Container pane) {
+	public void addComponentToPane(Container pane, FrameStates states) {
 		JPanel radioButtonPane = new JPanel();
 
 		hostBtn.addActionListener(this);
@@ -56,8 +60,8 @@ public class StartDialog extends JDialog implements ActionListener {
 		radioButtonPane.add(joinBtn);
 
 		// the host card
-		HostCard hostDialog = new HostCard();
-		ClientCard clientCard = new ClientCard();
+		HostCard hostDialog = new HostCard(connectionController,states,  this);
+		ClientCard clientCard = new ClientCard(connectionController,states, this);
 
 		
 		// creating the CardLayout
@@ -79,4 +83,5 @@ public class StartDialog extends JDialog implements ActionListener {
 			cl.show(cards, "card2");
 		}
 	}
+	
 }

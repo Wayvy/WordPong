@@ -26,9 +26,11 @@ public class ClientCard extends JPanel {
 	private int port;
 	private String ip;
 	private JTextArea clientInfo;
+	private ConnectDialog parent; 
 
-	public ClientCard() {
-
+	public ClientCard(ConnectionController joinController, FrameStates states, ConnectDialog parent) {
+		
+		this.parent = parent;
 		// Sets Layout
 		setLayout(new FlowLayout());
 
@@ -39,7 +41,6 @@ public class ClientCard extends JPanel {
 		// Adds Listeners
 		portField.addFocusListener(new TextFieldListener("Enter Port", portField));
 		ipField.addFocusListener(new TextFieldListener("Enter IP", ipField));
-
 		joinBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -53,7 +54,7 @@ public class ClientCard extends JPanel {
 							ipField.setText("invalid IP");
 						} 
 					else {
-						join();
+						join(joinController, states);
 					}
 				} catch (NumberFormatException f) {
 					portField.setText("invalid input");
@@ -61,9 +62,12 @@ public class ClientCard extends JPanel {
 
 			}
 		});
+		//Zum Schnellen testen
+		portField.setText("11200");
+		ipField.setText("192.168.0.101");
 	}
 
-	private void join() {
+	private void join(ConnectionController joinController, FrameStates states) {
 
 		joinBtn.setVisible(false);
 		portField.setVisible(false);
@@ -77,8 +81,11 @@ public class ClientCard extends JPanel {
 
 		// Alles folgende findet nun im ConnectionController statt 'Wavy'
 
-		ConnectionController playerController = new ConnectionController(port,hostIP);
-		playerController.joinGame();
+		joinController.setPort(port);
+		joinController.setAddress(hostIP);
+		joinController.joinGame();
+		states.startFrame();
+		parent.dispose();
 
 	}
 

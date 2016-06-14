@@ -1,5 +1,7 @@
 package game;
 
+import gui.FrameStates;
+
 /**
  * The GameProgram Class contains the procedure for the game, it sets up the
  * rules and mechanics for the Game.
@@ -12,10 +14,12 @@ public class GameProgram extends Thread{
 	public static byte roundNumber;
 	public static Countdown countdown;
 	private Player[] players;
+	private FrameStates states;
 
-	public GameProgram(int numberOfPlayers)
+	public GameProgram(int numberOfPlayers, FrameStates states)
 	{
 		this.players = new Player[numberOfPlayers];
+		this.states = states;
 	}
 	
 	@Override

@@ -14,8 +14,8 @@ import javax.swing.JTextField;
  */
 public class TextFieldListener implements FocusListener {
 
-	String defaultText;
-	JTextField textField;
+	private String defaultText;
+	private JTextField textField;
 
 	/**
 	 * Constructs the Attributes, the Object need

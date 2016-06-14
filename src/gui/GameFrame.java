@@ -18,6 +18,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import infrastructure.ConnectionController;
+
 public class GameFrame extends JFrame implements Runnable{
 
 	// Classmember
@@ -32,7 +34,7 @@ public class GameFrame extends JFrame implements Runnable{
 	
 	public GameFrame() {
 		super("WordPong");
-		gframe = this;
+		gframe = this; //TODO: Should be moved into a real main at some point
 		
 		backPane.setLayout(new BoxLayout(backPane, BoxLayout.Y_AXIS));
 		infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -63,18 +65,10 @@ public class GameFrame extends JFrame implements Runnable{
 		JMenuItem rules = new JMenuItem("Rules");
 		about.add(rules);
 
-		btn.addActionListener(new ActionListener() {
-			
-//			@Override
-			public void actionPerformed(ActionEvent e) {
-				new StartDialog(gframe);
-				
-			}
-		});
-
 		// produce all frame states call first
 		states = new FrameStates(gframe);
 		states.initFrame();
+		
 	}
 	
 	private static void createAndShowGUI(){

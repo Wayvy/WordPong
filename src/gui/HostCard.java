@@ -3,6 +3,8 @@ package gui;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -27,20 +29,23 @@ public class HostCard extends JPanel {
 	private JButton hostBtn = new JButton("Host Server");
 	private JTextArea hostInfo;
 	private int port;
+	private ConnectDialog parent;
 
 	/**
 	 * Creates the Hostcard, that asks for a Port number and checks if the input
 	 * is a valid port number. Afterwards a new ServerSocket is created.
+	 * @param states 
 	 * 
 	 * @param the
 	 *            parent frame
 	 */
-	public HostCard() {
+	public HostCard(ConnectionController hostController, FrameStates states, ConnectDialog parent) {
 
 //		portField.setText("11200");
 		
 
 		// Sets Layout
+		this.parent = parent;
 		setLayout(new FlowLayout());
 
 		// Adds Components
@@ -57,7 +62,7 @@ public class HostCard extends JPanel {
 					if (port < 1025) {
 						portField.setText("invalid port");
 					} else {
-						host();
+						host(hostController, states);
 					}
 				} catch (NumberFormatException f) {
 					portField.setText("invalid input");
@@ -65,13 +70,14 @@ public class HostCard extends JPanel {
 
 			}
 		});
+		portField.setText("11200");
 	}
 
 	/**
 	 * Changes the state of the Dialog to output the Information to connect to
 	 * the server
 	 */
-	private void host() {
+	private void host(ConnectionController hostController, FrameStates states) {
 
 		hostBtn.setVisible(false);
 		portField.setVisible(false);
@@ -79,10 +85,20 @@ public class HostCard extends JPanel {
 		hostInfo = new JTextArea(2, 3);
 		hostInfo.setEditable(false);
 		add(hostInfo, FlowLayout.LEFT);
-		String hostIP = "192.168.0.104";
-		hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
-		ConnectionController playerController = new ConnectionController(port);
-		playerController.hostGame();
+		String hostIP;
+		try {
+			hostIP = InetAddress.getLocalHost().getHostAddress();
+			hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
+			
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hostController.setPort(port);
+		hostController.hostGame();
+		states.startFrame();
+		parent.dispose();
+
 
 	}
 
