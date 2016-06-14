@@ -11,8 +11,11 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+import gui.FrameStates;
+
 /**
  * Handles connecting every request to join a server or host one.
+ * 
  * @author Wavy
  * @version 0.7
  */
@@ -27,6 +30,7 @@ public class ConnectionController extends Thread {
 	private String address;
 	private String nameHost;
 	private String nameClient;
+	private FrameStates states;
 
 	/**
 	 * The Connection controller handles the hosting and the joining of one
@@ -35,10 +39,10 @@ public class ConnectionController extends Thread {
 	 * to the other player. Also the start of the game should be initiated in
 	 * here.
 	 */
-	public ConnectionController(){
-		
+	public ConnectionController(FrameStates states) {
+		this.states = states;
 	}
-	
+
 	public ConnectionController(int port) {
 		this.port = port;
 	}
@@ -65,16 +69,16 @@ public class ConnectionController extends Thread {
 					nemesis = host.accept();
 
 					setupFileIO();
-					
+
 					writer.println("Hello, here is " + nameHost + " !");
 					writer.flush();
-					
+
 					String message = reader.nextLine();
 					System.out.println(message);
 					System.out.println("ServerStuff");
-					while(true)
-					{
-						if(Thread.interrupted())
+					states.setPassController(new PassController(nemesis, nameClient, writer, reader));
+					while (true) {
+						if (Thread.interrupted())
 							break;
 					}
 					host.close();
@@ -84,7 +88,7 @@ public class ConnectionController extends Thread {
 				} finally {
 					reader.close();
 					writer.close();
-					
+
 					try {
 						nemesis.close();
 					} catch (IOException e) {
@@ -111,44 +115,48 @@ public class ConnectionController extends Thread {
 				try {
 					nameClient = JOptionPane.showInputDialog("Please enter your name");
 					System.out.println(port);
-					
-					//Setup Socket
+
+					// Setup Socket
 					nemesis = new Socket(InetAddress.getByName(address), port);
 					System.out.println(nemesis);
-					
+
 					setupFileIO();
-					
-					//Write to Server
+
+					// Write to Server
 					writer.println("Hello, here is " + nameClient + " !");
 					writer.flush();
-					
-					//Read from server
+
+					// Read from server
 					String message = reader.nextLine();
 					System.out.println(message);
 					System.out.println("Client Stuff");
+
+					states.setPassController(new PassController(nemesis, nameClient, writer, reader));
+
 					
-					new PassController(nemesis,nameClient,writer,reader);
-					
+					while(true)
+					{
+						if(Thread.interrupted());
+						break;
+					}
 					reader.close();
 					writer.close();
 					nemesis.close();
-					
+
 				} catch (IOException e) {
 					// TODO Something with the IOStreams is wrong, how can that
 					// be solved??
 					e.printStackTrace();
-				} 
-
 				}
 
-			
+			}
+
 		};
 
 		joinThread.start();
 	}
-	
-	private void setupFileIO()
-	{
+
+	private void setupFileIO() {
 		try {
 			// Setup receiving Messages
 			inputStream = nemesis.getInputStream();
@@ -162,13 +170,12 @@ public class ConnectionController extends Thread {
 			e.printStackTrace();
 		}
 
-		
 	}
-	
+
 	public void setPort(int port) {
 		this.port = port;
 	}
-	
+
 	public void setAddress(String address) {
 		this.address = address;
 	}

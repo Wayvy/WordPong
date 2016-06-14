@@ -9,24 +9,23 @@ import gui.FrameStates;
  * @author Wavy, (fjiz)
  * @version 0.51
  */
-public class GameProgram extends Thread{
-	
+public class GameProgram extends Thread {
+
 	public static byte roundNumber;
 	public static Countdown countdown;
 	private Player[] players;
 	private FrameStates states;
 
-	public GameProgram(int numberOfPlayers, FrameStates states)
-	{
+	public GameProgram(int numberOfPlayers, FrameStates states) {
 		this.players = new Player[numberOfPlayers];
 		this.states = states;
 	}
-	
+
 	@Override
 	public void run() {
 		initiateGame();
 		System.out.println("Initiate Game");
-		runGameLoop();
+		// runGameLoop();
 	}
 
 	/**
@@ -41,32 +40,64 @@ public class GameProgram extends Thread{
 	/**
 	 * The procedure
 	 */
-	private void runGameLoop() {
+	private void clientLoop() {
 		String word;
 		/*
 		 * An infinite loop, that still needs a break conditions
 		 */
-		while (true) {
-			do {
-				word = players[0].pickWord();
-			} while (!IsInDataBase(word));
 
-			WordPass pass = toss(word);
-			startTimer(pass.getTime());
-			players[1].take(pass);
-			players[1].increaseScore(countdown.stopCountdown());
+		Thread clientLoop = new Thread() {
+			public void run() {
+				while (true) {
+					states.passivFrame();
+					states.activFrame();
+					states.afterActiveFrame();
+					nextRound();
+				}
+			}
 
-			do {
-				word = players[1].pickWord();
-			} while (!IsInDataBase(word));
+		};
+		clientLoop.start();
 
-			pass = toss(word);
-			startTimer(pass.getTime());
-			players[0].take(pass);
-			players[0].increaseScore(countdown.stopCountdown());
-			nextRound();
+	}
 
-		}
+	private void hostLoop() {
+
+		String word;
+
+		states.startFrame();
+		Thread hostLoop = new Thread() {
+			@Override
+			public void run() {
+				while (true) {
+					states.passivFrame();
+					states.activFrame();
+					states.afterActiveFrame();
+					nextRound();
+
+				}
+
+			}
+		};
+		hostLoop.start();
+
+		/*
+		 * An infinite loop, that still needs a break conditions
+		 *
+		 * while (true) { do { word = players[0].pickWord(); } while
+		 * (!IsInDataBase(word));
+		 * 
+		 * WordPass pass = toss(word); startTimer(pass.getTime());
+		 * players[1].take(pass);
+		 * players[1].increaseScore(countdown.stopCountdown());
+		 * 
+		 * do { word = players[1].pickWord(); } while (!IsInDataBase(word));
+		 * 
+		 * pass = toss(word); startTimer(pass.getTime()); players[0].take(pass);
+		 * players[0].increaseScore(countdown.stopCountdown()); nextRound();
+		 * 
+		 * }
+		 */
 	}
 
 	/**

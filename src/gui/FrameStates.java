@@ -4,10 +4,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import game.WordPass;
 import infrastructure.ConnectionController;
 import infrastructure.PassController;
 import listeners.ConnectioDialogioListener;
 import listeners.SendingPassListener;
+import listeners.TypeOffListener;
 
 //import javafx.scene.paint.Color;
 
@@ -29,7 +31,8 @@ public class FrameStates {
 	private JTextField playType;
 	private ConnectioDialogioListener openDialogLst;
 	private SendingPassListener sendingPassLst;
-	private ConnectionController connectionController;
+	private WordPass wordPass;
+	private TypeOffListener typeOffListener;
 	private PassController passController;
 	/**
 	 * Creates an object with methods for the recuring frame states. Also a
@@ -40,8 +43,8 @@ public class FrameStates {
 	 * @see gui.GameFrame GameFrame()
 	 */
 	public FrameStates(GameFrame gframe) {
-		connectionController = new ConnectionController();
-		openDialogLst = new ConnectioDialogioListener(gframe, this, new ConnectionController());
+		openDialogLst = new ConnectioDialogioListener(gframe, this, new ConnectionController(this));
+		typeOffListener = new TypeOffListener(playType, wordPass, infoLabel);
 		
 		this.gframe = gframe;
 
@@ -67,6 +70,8 @@ public class FrameStates {
 	}
 
 	public void startFrame() {
+		btn.removeActionListener(openDialogLst);
+		btn.addActionListener(sendingPassLst);
 		infoLabel.setText("Player 1 picks Word");
 		responseLabel.setText("");
 		btn.setText("Begin");
@@ -75,15 +80,30 @@ public class FrameStates {
 	}
 
 	public void activFrame() {
-
+		btn.addActionListener(typeOffListener);
+		infoLabel.setText("Player 1 types off Word");
+		responseLabel.setText(wordPass.getWordToPass());
+		btn.setText("");
+		playType.setEditable(true);
+		send();
 	}
 
 	public void passivFrame() {
-
+		btn.removeActionListener(sendingPassLst);
+		infoLabel.setText("Wait for Other Player to make Turn");
+		responseLabel.setText("");
+		btn.setText("");
+		playType.setEditable(false);
+		send();
 	}
 
-	public void endFrame() {
-
+	public void afterActiveFrame() {
+		btn.removeActionListener(typeOffListener);
+		infoLabel.setText("Player 1 picks Word");
+		responseLabel.setText("");
+		btn.setText("Send");
+		playType.setEditable(true);
+		send();
 	}
 
 	public void send() {

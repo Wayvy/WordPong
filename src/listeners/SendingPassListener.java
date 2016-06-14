@@ -10,6 +10,7 @@ import infrastructure.PassController;
 
 public class SendingPassListener implements ActionListener {
 
+	
 	JTextField sendingField;
 	PassController passController;
 	
