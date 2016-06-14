@@ -13,11 +13,11 @@ import listeners.SendingPassListener;
 
 /**
  * A class listing all possible recurring states the game can have. Each state
- * is represented with a method.
+ * is represented with a method. Gets created by the GameFrame constructor.
  * 
  * @author fjiz
- * @version 0.1
- *
+ * @version 0.2
+ * @see gui.GameFrame GameFrame()
  */
 public class FrameStates {
 
@@ -32,12 +32,12 @@ public class FrameStates {
 	private ConnectionController connectionController;
 	private PassController passController;
 	/**
-	 * creates an object with methods for the frame states. and
-	 * a method for sending them to the GameFrame
+	 * Creates an object with methods for the recuring frame states. Also a
+	 * method for sending them to the GameFrame
 	 * 
 	 * @param gframe
 	 *            The GameFrame this is responding to.
-	 * 
+	 * @see gui.GameFrame GameFrame()
 	 */
 	public FrameStates(GameFrame gframe) {
 		connectionController = new ConnectionController();
@@ -65,27 +65,27 @@ public class FrameStates {
 		playType.setEditable(false);
 		send();
 	}
-	
-	public void startFrame(){
+
+	public void startFrame() {
 		infoLabel.setText("Player 1 picks Word");
 		responseLabel.setText("");
 		btn.setText("Begin");
 		playType.setEditable(true);
 		send();
 	}
-	
-	public void activFrame(){
-		
-	}
-	
-	public void passivFrame(){
-		
+
+	public void activFrame() {
+
 	}
 
-	public void endFrame(){
-		
+	public void passivFrame() {
+
 	}
-	
+
+	public void endFrame() {
+
+	}
+
 	public void send() {
 		gframe.setBtn(btn);
 		gframe.setInfoLabel(infoLabel);

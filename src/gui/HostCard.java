@@ -15,14 +15,18 @@ import infrastructure.ConnectionController;
 import listeners.TextFieldListener;
 
 /**
- * The dialogcard, that asks for the Port the Host want to use to get a
- * connection. When pressing the hostBtn, a Thread will be created and lets some
- * other player connect to the host. While waiting the Information to connect
- * will be output at the HostGUI
+ * The dialogcard for hosting a game. Asks for the port the host want to use to
+ * establish a connection. When pressing the hostBtn the IP and the port for the
+ * ongoing server socket will be shown in hostInfo. Creates a new
+ * ConectionController calls the hostGame() method
  * 
  * @author Wavy, Fjiz
- * @version 0.71
+ * @version 0.72
+ * @see ClientCard
+ * @see StartDialog
+ * @see ConnectionController
  */
+@SuppressWarnings("serial")
 public class HostCard extends JPanel {
 
 	private JTextField portField = new JTextField(15);
@@ -32,17 +36,15 @@ public class HostCard extends JPanel {
 	private ConnectDialog parent;
 
 	/**
-	 * Creates the Hostcard, that asks for a Port number and checks if the input
-	 * is a valid port number. Afterwards a new ServerSocket is created.
-	 * @param states 
+	 * Creates the layout, adds the JTextField for entering the port number.
+	 * When the hostBtn is clicked, checks if the input is a valid port number.
+	 * Then calls host()
 	 * 
-	 * @param the
-	 *            parent frame
+	 * @see gui.HostCard#host() host()
 	 */
 	public HostCard(ConnectionController hostController, FrameStates states, ConnectDialog parent) {
 
-//		portField.setText("11200");
-		
+		// portField.setText("11200");
 
 		// Sets Layout
 		this.parent = parent;
@@ -74,8 +76,11 @@ public class HostCard extends JPanel {
 	}
 
 	/**
-	 * Changes the state of the Dialog to output the Information to connect to
-	 * the server
+	 * Hides the input objects and shows the connection specs. Creates a new
+	 * thread ConnectionController and calls the hostGame() method.
+	 * 
+	 * @see ConnectionController
+	 * @see infrastructure.ConnectionController#hostGame() hostGame()
 	 */
 	private void host(ConnectionController hostController, FrameStates states) {
 
@@ -89,7 +94,7 @@ public class HostCard extends JPanel {
 		try {
 			hostIP = InetAddress.getLocalHost().getHostAddress();
 			hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
-			
+
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,7 +103,6 @@ public class HostCard extends JPanel {
 		hostController.hostGame();
 		states.startFrame();
 		parent.dispose();
-
 
 	}
 
