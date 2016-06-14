@@ -44,7 +44,13 @@ public class PassController extends Thread {
 	}
 
 	public void sendPass(WordPass pass) {
-
+		output.write(pass.getWordToPass());
+		output.flush();
+	}
+	
+	private void catchPass(String wordToPass)
+	{
+		WordPass newPass = new WordPass(scanner.nextLine());
 	}
 
 	/**
@@ -52,25 +58,16 @@ public class PassController extends Thread {
 	 */
 	@Override
 	public void run() {
-		try {
-			System.out.println(nemesis);
-
-			try {
-				while (true) {
-					output.println("You can enter a Message: ");
-					output.flush();
-					String message = scanner.nextLine();
+		
+			while(true)
+			{
+				if(scanner.hasNext())
+				{
+					catchPass(scanner.nextLine());
+					break;
 				}
-
-			} finally {
-				scanner.close();
-				output.close();
-				nemesis.close();
-
 			}
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 }
