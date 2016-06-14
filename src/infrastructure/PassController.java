@@ -8,7 +8,7 @@ import java.util.Scanner;
 import game.WordPass;
 
 /**
- * Handles every Request from a Client to send a Message to the Chat
+ * Handles every the datastreams from client to server
  * 
  * @author wavy
  * @version 1.00
