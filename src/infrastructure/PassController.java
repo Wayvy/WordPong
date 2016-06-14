@@ -15,10 +15,10 @@ import game.WordPass;
  */
 public class PassController extends Thread {
 
-	PrintWriter output;
-	Scanner scanner;
-	String name;
-	Socket nemesis;
+	private PrintWriter output;
+	private Scanner scanner;
+	private String name;
+	private Socket nemesis;
 	int index = 0;
 
 	/**

@@ -5,7 +5,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import infrastructure.ConnectionController;
+import infrastructure.PassController;
 import listeners.ConnectioDialogioListener;
+import listeners.SendingPassListener;
 
 //import javafx.scene.paint.Color;
 
@@ -25,8 +27,10 @@ public class FrameStates {
 	private JLabel infoLabel;
 	private JButton btn;
 	private JTextField playType;
-	private ConnectioDialogioListener openDialog = new ConnectioDialogioListener(gframe, this, new ConnectionController());
-
+	private ConnectioDialogioListener openDialogLst;
+	private SendingPassListener sendingPassLst;
+	private ConnectionController connectionController;
+	private PassController passController;
 	/**
 	 * creates an object with methods for the frame states. and
 	 * a method for sending them to the GameFrame
@@ -36,6 +40,9 @@ public class FrameStates {
 	 * 
 	 */
 	public FrameStates(GameFrame gframe) {
+		connectionController = new ConnectionController();
+		openDialogLst = new ConnectioDialogioListener(gframe, this, new ConnectionController());
+		
 		this.gframe = gframe;
 
 		this.responseLabel = gframe.getResponseLabel();
@@ -43,11 +50,16 @@ public class FrameStates {
 		this.btn = gframe.getBtn();
 		this.playType = gframe.getPlayType();
 	}
+	
+	public void setPassController(PassController passController)
+	{
+		this.passController = passController;
+	}
 
 	public void initFrame() {
 		
 		infoLabel.setText("Press Start");
-		btn.addActionListener(openDialog);
+		btn.addActionListener(openDialogLst);
 		responseLabel.setText("");
 		btn.setText("Start Game");
 		playType.setEditable(false);

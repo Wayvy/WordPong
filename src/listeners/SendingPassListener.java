@@ -8,12 +8,12 @@ import javax.swing.JTextField;
 import game.WordPass;
 import infrastructure.PassController;
 
-public class SendingTextListener implements ActionListener {
+public class SendingPassListener implements ActionListener {
 
 	JTextField sendingField;
 	PassController passController;
 	
-	public SendingTextListener(JTextField sendingField, PassController passController)
+	public SendingPassListener(JTextField sendingField, PassController passController)
 	{
 		this.sendingField = sendingField;
 		this.passController = passController;
