@@ -45,6 +45,7 @@ public class FrameStates {
 	public FrameStates(GameFrame gframe) {
 		openDialogLst = new ConnectioDialogioListener(gframe, this, new ConnectionController(this));
 		typeOffListener = new TypeOffListener(playType, wordPass, infoLabel);
+		sendingPassLst = new SendingPassListener(playType, passController, this);
 		
 		this.gframe = gframe;
 
