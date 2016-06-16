@@ -21,8 +21,6 @@ public class TypeOffListener implements ActionListener {
 		
 		this.textField = textField;
 		this.wordPass = wordPass;
-		System.out.println(wordPass);
-		System.out.println(textField);
 		this.infoLabel = infoLabel;
 
 	}
