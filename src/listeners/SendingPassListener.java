@@ -17,7 +17,6 @@ import infrastructure.PassController;
  */
 public class SendingPassListener implements ActionListener {
 
-	
 	private JTextField sendingField;
 	private PassController passController;
 	private FrameStates frameStates;
@@ -28,7 +27,6 @@ public class SendingPassListener implements ActionListener {
 		this.passController = passController;
 		this.frameStates = frameStates;
 	}
-	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

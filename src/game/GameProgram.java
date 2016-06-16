@@ -11,7 +11,7 @@ import gui.FrameStates;
  */
 public class GameProgram extends Thread {
 
-	public static byte roundNumber;
+	public static byte roundNumber = 1;
 	public static Countdown countdown;
 	private Player[] players;
 	private FrameStates states;
