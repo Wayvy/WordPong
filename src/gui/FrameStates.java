@@ -52,6 +52,8 @@ public class FrameStates {
 		this.btn = gframe.getBtn();
 		this.playType = gframe.getPlayType();
 
+		//TODO: How to organize the Connection controllers?
+		//only one controller or two?
 		openDialogLst = new ConnectioDialogioListener(gframe, this, new ConnectionController(this));
 		typeOffListener = new TypeOffListener(playType, wordPass, infoLabel, this);
 		sendingPassLst = new SendingPassListener(playType, passController, this);
@@ -87,6 +89,7 @@ public class FrameStates {
 	 */
 	public void startFrame() {
 		//Setup Listeners
+		btn.setEnabled(true);
 		btn.removeActionListener(openDialogLst);
 		playType.removeActionListener(openDialogLst);
 		btn.addActionListener(sendingPassLst);
@@ -98,6 +101,13 @@ public class FrameStates {
 		btn.setText("Begin");
 
 		playType.setEditable(true);
+	}
+	
+	public void waitForJoin()
+	{
+		btn.setEnabled(false);
+		btn.setText("");
+		infoLabel.setText("Wait for other Player to join");
 	}
 
 	/**

@@ -81,7 +81,7 @@ public class ClientCard extends JPanel {
 		});
 		// Zum Schnellen testen
 		portField.setText("11200");
-		ipField.setText("192.168.0.101");
+		ipField.setText("127.0.0.1");
 	}
 
 	private void join(ConnectionController joinController, FrameStates states) {
@@ -109,7 +109,6 @@ public class ClientCard extends JPanel {
 		joinController.setPort(port);
 		joinController.setAddress(hostIP);
 		joinController.joinGame();
-		states.startFrame();
 		parent.dispose();
 
 	}

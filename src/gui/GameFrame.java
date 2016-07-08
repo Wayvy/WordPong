@@ -2,8 +2,6 @@ package gui;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,9 +14,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-
-import infrastructure.ConnectionController;
 /**
  * Creates the main frame for the game.
  * 
@@ -47,7 +42,7 @@ public class GameFrame extends JFrame implements Runnable{
 	 * @see gui.FrameStates FrameStates()
 	 * @see gui.FrameStates#initFrame() initFrame()
 	 */
-	public GameFrame() {
+	public GameFrame() {	
 		super("WordPong");
 
 		gframe = this; //TODO: Should be moved into a real main at some point

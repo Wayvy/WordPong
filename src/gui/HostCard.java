@@ -101,7 +101,7 @@ public class HostCard extends JPanel {
 		}
 		hostController.setPort(port);
 		hostController.hostGame();
-		states.startFrame();
+		//states.startFrame();
 		parent.dispose();
 
 	}

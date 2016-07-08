@@ -41,6 +41,7 @@ public class ConnectionController extends Thread {
 	 */
 	public ConnectionController(FrameStates states) {
 		this.states = states;
+		System.out.println("ConnectionController created");
 	}
 
 	public ConnectionController(int port) {
@@ -64,10 +65,12 @@ public class ConnectionController extends Thread {
 			// @Override
 			public void run() {
 				try {
+					states.waitForJoin();
 					ServerSocket host = new ServerSocket(port, 100);
 					nameHost = JOptionPane.showInputDialog("Please enter your name");
 					nemesis = host.accept();
-
+					states.startFrame();
+					
 					setupFileIO();
 
 					writer.println("Hello, here is " + nameHost + " !");
