@@ -31,7 +31,8 @@ public class SendingPassListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//TODO if(wordInDatabase())
-		//TODO passController.sendPass(new WordPass(sendingField.getText()));
+		System.out.println(passController);
+		passController.sendPass(new WordPass(sendingField.getText()));
 		frameStates.passivFrame();
 		//TODO else show notification
 

@@ -36,7 +36,7 @@ public class FrameStates {
 	private PassController passController;
 
 	/**
-	 * Creates an object with methods for the recuring frame states. Also a
+	 * Creates an object with methods for the recurring frame states. Also a
 	 * method for sending them to the GameFrame
 	 * 
 	 * @param gframe
@@ -52,12 +52,9 @@ public class FrameStates {
 		this.btn = gframe.getBtn();
 		this.playType = gframe.getPlayType();
 
-		//TODO: How to organize the Connection controllers?
-		//only one controller or two?
 		openDialogLst = new ConnectioDialogioListener(gframe, this, new ConnectionController(this));
 		typeOffListener = new TypeOffListener(playType, wordPass, infoLabel, this);
-		sendingPassLst = new SendingPassListener(playType, passController, this);
-
+		
 	}
 
 	/**
@@ -66,6 +63,7 @@ public class FrameStates {
 
 	public void setPassController(PassController passController) {
 		this.passController = passController;
+		System.out.println("Pass Controller has been set");
 	}
 
 	/**
@@ -99,6 +97,7 @@ public class FrameStates {
 		infoLabel.setText("Player 1 picks Word");
 		responseLabel.setText("");
 		btn.setText("Begin");
+		sendingPassLst = new SendingPassListener(playType, passController, this);
 
 		playType.setEditable(true);
 	}
@@ -145,7 +144,7 @@ public class FrameStates {
 		playType.setText("");
 
 		// TODO Only to test the Frontend -> Implement Backend
-		new Thread(new Runnable() {
+		/*new Thread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -159,6 +158,9 @@ public class FrameStates {
 
 			}
 		}).start();
+		*/
+		passController.catchPass();
+		activFrame();
 
 	}
 

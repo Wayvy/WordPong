@@ -80,6 +80,8 @@ public class ConnectionController extends Thread {
 					System.out.println(message);
 					System.out.println("ServerStuff");
 					states.setPassController(new PassController(nemesis, nameClient, writer, reader));
+					
+					
 					while (true) {
 						if (Thread.interrupted())
 							break;
@@ -133,9 +135,10 @@ public class ConnectionController extends Thread {
 					String message = reader.nextLine();
 					System.out.println(message);
 					System.out.println("Client Stuff");
-
+					
 					states.setPassController(new PassController(nemesis, nameClient, writer, reader));
-
+					
+					states.passivFrame();
 					
 					while(true)
 					{

@@ -13,7 +13,7 @@ import game.WordPass;
  * @author wavy
  * @version 1.00
  */
-public class PassController extends Thread {
+public class PassController {
 
 	private PrintWriter output;
 	private Scanner scanner;
@@ -46,28 +46,19 @@ public class PassController extends Thread {
 	public void sendPass(WordPass pass) {
 		output.write(pass.getWordToPass());
 		output.flush();
+		System.out.println("Has send " + pass.getWordToPass());
 	}
 	
-	private void catchPass(String wordToPass)
+	public WordPass catchPass()
 	{
-		WordPass newPass = new WordPass(scanner.nextLine());
+		String passToCatch = scanner.nextLine();
+		WordPass newPass = new WordPass(passToCatch);
+		System.out.println("Has received: " + newPass.getWordToPass());
+		return newPass;
 	}
 
 	/**
 	 * Right now the Server takes the data and puts it out on its console
 	 */
-	@Override
-	public void run() {
-		
-			while(true)
-			{
-				if(scanner.hasNext())
-				{
-					catchPass(scanner.nextLine());
-					break;
-				}
-			}
 
-
-	}
 }
