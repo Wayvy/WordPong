@@ -1,4 +1,4 @@
-package game;
+package org.spacewave.wordpong;
 
 /**
  * A WordPass is the Base of the game. Like a ball these will be send from
@@ -41,7 +41,7 @@ public class WordPass {
 	 * @return the points the typing player can get if he types in minimal time
 	 */
 	private int calculateMaxPoints(String word) {
-		int points = word.length() * GameProgram.roundNumber;
+		int points = word.length() ;
 		return points;
 	}
 
@@ -54,7 +54,7 @@ public class WordPass {
 	 * @return the amount of time the typing player will get
 	 */
 	private int calculateTimeToType(String word) {
-		int durancy = (word.length() + 1) / GameProgram.roundNumber;
+		int durancy = (word.length() + 1) ;
 		return durancy;
 	}
 

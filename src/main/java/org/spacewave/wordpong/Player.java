@@ -1,4 +1,4 @@
-package game;
+package org.spacewave.wordpong;
 
 import java.util.Scanner;
 

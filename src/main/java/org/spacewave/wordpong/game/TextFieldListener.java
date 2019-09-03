@@ -1,4 +1,4 @@
-package listeners;
+package org.spacewave.wordpong.game;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -12,6 +12,7 @@ import javax.swing.JTextField;
  * @author Wavy
  * @version 1.00
  */
+
 public class TextFieldListener implements FocusListener {
 
 	private String defaultText;

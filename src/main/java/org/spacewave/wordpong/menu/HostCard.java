@@ -1,4 +1,4 @@
-package gui;
+package org.spacewave.wordpong.menu;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -11,8 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import infrastructure.ConnectionController;
-import listeners.TextFieldListener;
+import org.spacewave.wordpong.GameFrame;
+import org.spacewave.wordpong.infrastructure.Connection;
+import org.spacewave.wordpong.infrastructure.ConnectionController;
+import org.spacewave.wordpong.game.TextFieldListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * The dialogcard for hosting a game. Asks for the port the host want to use to
@@ -23,26 +27,38 @@ import listeners.TextFieldListener;
  * @author Wavy, Fjiz
  * @version 0.72
  * @see ClientCard
- * @see StartDialog
  * @see ConnectionController
  */
 @SuppressWarnings("serial")
+@Service
 public class HostCard extends JPanel {
 
 	private JTextField portField = new JTextField(15);
 	private JButton hostBtn = new JButton("Host Server");
 	private JTextArea hostInfo;
 	private int port;
+
+	@Autowired
 	private ConnectDialog parent;
+
+	@Autowired
+	private GameFrame gameFrame;
+
+	@Autowired
+	private ConnectionController connectionController;
 
 	/**
 	 * Creates the layout, adds the JTextField for entering the port number.
 	 * When the hostBtn is clicked, checks if the input is a valid port number.
 	 * Then calls host()
 	 * 
-	 * @see gui.HostCard#host() host()
+	 * @see HostCard host()
 	 */
-	public HostCard(ConnectionController hostController, FrameStates states, ConnectDialog parent) {
+	public HostCard() {
+
+	}
+
+	public HostCard Init(Connection connection, ConnectDialog parent) {
 
 		// portField.setText("11200");
 
@@ -64,7 +80,7 @@ public class HostCard extends JPanel {
 					if (port < 1025) {
 						portField.setText("invalid port");
 					} else {
-						host(hostController, states);
+						host(connection);
 					}
 				} catch (NumberFormatException f) {
 					portField.setText("invalid input");
@@ -73,6 +89,7 @@ public class HostCard extends JPanel {
 			}
 		});
 		portField.setText("11200");
+		return this;
 	}
 
 	/**
@@ -80,9 +97,9 @@ public class HostCard extends JPanel {
 	 * thread ConnectionController and calls the hostGame() method.
 	 * 
 	 * @see ConnectionController
-	 * @see infrastructure.ConnectionController#hostGame() hostGame()
+	 * @see org.spacewave.wordpong.infrastructure.ConnectionController hostGame()
 	 */
-	private void host(ConnectionController hostController, FrameStates states) {
+	private void host(Connection connection) {
 
 		hostBtn.setVisible(false);
 		portField.setVisible(false);
@@ -93,14 +110,15 @@ public class HostCard extends JPanel {
 		String hostIP;
 		try {
 			hostIP = InetAddress.getLocalHost().getHostAddress();
+			connection.setAddress(hostIP);
 			hostInfo.setText("IP: " + hostIP + "\nPort: " + port);
 
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		hostController.setPort(port);
-		hostController.hostGame();
+		connection.setPort(port);
+		connectionController.hostGame(gameFrame, connection);
 		//states.startFrame();
 		parent.dispose();
 

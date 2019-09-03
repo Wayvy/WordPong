@@ -1,4 +1,4 @@
-package gui;
+package org.spacewave.wordpong.menu;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -11,7 +11,16 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import infrastructure.ConnectionController;
+import org.spacewave.wordpong.ApplicationContextProvider;
+import org.spacewave.wordpong.GameFrame;
+import org.spacewave.wordpong.SwingApp;
+import org.spacewave.wordpong.game.GameComponent;
+import org.spacewave.wordpong.game.GameController;
+import org.spacewave.wordpong.infrastructure.Connection;
+import org.spacewave.wordpong.infrastructure.ConnectionController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 
 /**
  * This dialog lets you choose between hosting or joining a game through two
@@ -19,50 +28,57 @@ import infrastructure.ConnectionController;
  * 
  * @author Fjiz
  * @version 0.3
- * @see gui.HostCard HostCard()
- * @see gui.ClientCard ClientCard()
+ * @see HostCard HostCard()
+ * @see ClientCard ClientCard()
  */
 
+@Service
 public class ConnectDialog extends JDialog implements ActionListener {
 
-	// private GameFrame gframe;
-
 	private JPanel cards;
-	private ConnectionController connectionController;
-	JRadioButton hostBtn = new JRadioButton("Host Game", true);
-	JRadioButton joinBtn = new JRadioButton("Join Game", false);
+	private JRadioButton hostBtn = new JRadioButton("Host Game", true);
+	private JRadioButton joinBtn = new JRadioButton("Join Game", false);
+
+	@Autowired
+	private ApplicationContextProvider applicationContextProvider;
+
+	@Autowired
+	private HostCard hostCard;
+
+	@Autowired
+	private ClientCard clientCard;
+
 
 	/**
 	 * creates the dialog. The host card is the choosen by default. The Dialog
 	 * is modal and shows on top of the invoking parent
 	 * 
-	 * 
-	 * @param gframe
+	 *
 	 *            - the parent which invokes the dialog
-	 * @param states
-	 *            - the parent GameFrame which invokes the dialog.
-	 * @see gui.GameFrame GameFrame()
+	 * @see SwingApp GameFrame()
 	 */
-	public ConnectDialog(GameFrame gframe, FrameStates states, ConnectionController connectionController) {
-		super(gframe);
-		// this.gframe = gframe;
-		this.connectionController = connectionController;
+	public ConnectDialog() {
 
-		addComponentToPane(getContentPane(), states);
+	}
+
+	public void Init() {
+		GameFrame gameFrame = applicationContextProvider.getApplicationContext().getBean(GameFrame.class);
+		new JDialog(gameFrame);
+		addComponentToPane(getContentPane(), gameFrame);
 		setModal(true);
-		setLocationRelativeTo(gframe);
+		setLocationRelativeTo(gameFrame);
 		pack();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
 
-	/**
+    /**
 	 * Fills the dialog with its content
 	 * 
 	 * @param pane
 	 *            - the container to add the content
 	 */
-	public void addComponentToPane(Container pane, FrameStates states) {
+	public void addComponentToPane(Container pane, GameFrame gameFrame) {
 
 		JPanel radioButtonPane = new JPanel();
 
@@ -77,8 +93,8 @@ public class ConnectDialog extends JDialog implements ActionListener {
 		radioButtonPane.add(joinBtn);
 
 		// the host card
-		HostCard hostDialog = new HostCard(connectionController, states, this);
-		ClientCard clientCard = new ClientCard(connectionController, states, this);
+		HostCard hostDialog = hostCard.Init(new Connection(), this);
+		ClientCard clientDialog = clientCard.Init(new Connection(),  this);
 
 		// creating the CardLayout
 		cards = new JPanel(new CardLayout());
@@ -99,5 +115,4 @@ public class ConnectDialog extends JDialog implements ActionListener {
 			cl.show(cards, "card2");
 		}
 	}
-
 }
