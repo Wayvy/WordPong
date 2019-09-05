@@ -9,6 +9,7 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 import org.spacewave.wordpong.GameFrame;
+import org.spacewave.wordpong.Player;
 import org.spacewave.wordpong.WordPass;
 import org.spacewave.wordpong.game.GameController;
 import org.spacewave.wordpong.menu.MenuComponent;
@@ -57,8 +58,9 @@ public class ConnectionController extends Thread {
 					String message = connection.getReader().nextLine();
 					System.out.println(message);
 
-					gameController.StartGame(connection);
-					gameController.RunGameLoop(connection);
+					Player player = new Player(connection.getNameHost());
+					gameController.StartGame(connection, player);
+					gameController.RunGameLoop(connection, player);
 					
 					while (true) {
 						if (Thread.interrupted())
@@ -101,8 +103,10 @@ public class ConnectionController extends Thread {
 					String message = connection.getReader().nextLine();
 					System.out.println(message);
 
+					Player player = new Player(connection.getNameClient());
+
 					gameController.passivFrame(connection);
-					gameController.RunGameLoop(connection);
+					gameController.RunGameLoop(connection, player);
 
 					while(true)
 					{

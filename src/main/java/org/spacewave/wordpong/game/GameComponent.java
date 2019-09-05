@@ -1,6 +1,7 @@
 package org.spacewave.wordpong.game;
 
 import org.spacewave.wordpong.GameFrame;
+import org.spacewave.wordpong.Player;
 import org.spacewave.wordpong.WordPass;
 import org.spacewave.wordpong.infrastructure.Connection;
 import org.spacewave.wordpong.menu.MenuController;
@@ -43,7 +44,7 @@ public class GameComponent {
         return gameFrame;
     }
 
-    public GameFrame getFirstTurn(GameFrame gameFrame, MenuController menuController, GameController.SendingPassListener sendingPassListener){
+    public GameFrame getFirstTurn(GameFrame gameFrame, MenuController menuController, GameController.SendingPassListener sendingPassListener, Player player){
         //Setup Listeners
         gameFrame.getBtn().setEnabled(true);
         gameFrame.getBtn().removeActionListener(menuController.getConnectionDialogueListener());
@@ -53,7 +54,7 @@ public class GameComponent {
         gameFrame.getPlayType().addActionListener(sendingPassListener);
 
         // Set Text of the FrameComponents
-        gameFrame.getInfoLabel().setText("Player picks Word");
+        gameFrame.getInfoLabel().setText(player.getName() + " picks Word");
         gameFrame.getResponseLabel().setText("");
         gameFrame.getBtn().setText("Begin");
 
@@ -80,6 +81,9 @@ public class GameComponent {
     }
 
     public GameFrame passivFrame(GameFrame swingApp, GameController.SendingPassListener sendingPassListener){
+
+        swingApp.getPlayType().removeActionListener(sendingPassListener);
+        swingApp.getBtn().removeActionListener(sendingPassListener);
 
         // Set Text of the FrameComponents
         swingApp.getInfoLabel().setText("Wait for Other Player to make Turn");

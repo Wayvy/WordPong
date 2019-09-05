@@ -20,6 +20,7 @@ public class GameFrame extends  JFrame{
     private JButton btn = new JButton();
     private JLabel infoLabel = new JLabel();
     private JLabel responseLabel = new JLabel("");
+    private JLabel pointsLabel = new JLabel("");
 
     @Autowired
     private MenuController menuController;
@@ -37,9 +38,11 @@ public class GameFrame extends  JFrame{
         infoLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         responseLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         btn.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        pointsLabel.setAlignmentX(CENTER_ALIGNMENT);
 
         backPane.add(Box.createRigidArea(new Dimension(0, 5)));
         backPane.add(infoLabel);
+        backPane.add(pointsLabel);
         backPane.add(Box.createRigidArea(new Dimension(0, 5)));
         backPane.add(playType);
         playType.setVisible(false);
@@ -110,6 +113,10 @@ public class GameFrame extends  JFrame{
 
     public void setResponseLabel(JLabel responseLabel) {
         this.responseLabel = responseLabel;
+    }
+
+    public void setPointsLabel(int points){
+        pointsLabel.setText("Score: " + points);
     }
 
     public GameFrame() {
