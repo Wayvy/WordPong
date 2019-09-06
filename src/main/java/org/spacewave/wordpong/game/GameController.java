@@ -1,5 +1,6 @@
 package org.spacewave.wordpong.game;
 
+import org.spacewave.wordpong.Countdown;
 import org.spacewave.wordpong.GameFrame;
 import org.spacewave.wordpong.Player;
 import org.spacewave.wordpong.WordPass;
@@ -22,6 +23,8 @@ public class GameController {
     private MenuController menuController;
     @Autowired
     private GameFrame gameFrame;
+    @Autowired
+    private Countdown countdown;
 
     private SendingPassListener sendingPassListener;
     private TypeOffListener typeOffListener;
@@ -38,7 +41,7 @@ public class GameController {
 
     public void RunGameLoop(Connection connection, Player player) {
         while(true){
-            WordPass wordPass = gameComponent.tryCatchingPass(gameFrame, connection);
+            WordPass wordPass = gameComponent.tryCatchingPass(gameFrame, connection, countdown);
             typeOffListener = new TypeOffListener(gameFrame.getPlayType(), wordPass, gameFrame.getResponseLabel(), player);
             gameComponent.typeOff(gameFrame, wordPass, typeOffListener);
         }

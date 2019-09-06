@@ -19,6 +19,7 @@ public class GameFrame extends  JFrame{
     private JTextField playType = new JTextField(20);
     private JButton btn = new JButton();
     private JLabel infoLabel = new JLabel();
+    private JLabel countDownLabel = new JLabel();
     private JLabel responseLabel = new JLabel("");
     private JLabel pointsLabel = new JLabel("");
 
@@ -39,6 +40,7 @@ public class GameFrame extends  JFrame{
         responseLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         btn.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         pointsLabel.setAlignmentX(CENTER_ALIGNMENT);
+        countDownLabel.setAlignmentX(CENTER_ALIGNMENT);
 
         backPane.add(Box.createRigidArea(new Dimension(0, 5)));
         backPane.add(infoLabel);
@@ -48,6 +50,7 @@ public class GameFrame extends  JFrame{
         playType.setVisible(false);
         backPane.add(Box.createRigidArea(new Dimension(0, 5)));
         backPane.add(responseLabel);
+        backPane.add(countDownLabel);
         backPane.add(Box.createRigidArea(new Dimension(0, 5)));
         backPane.add(btn);
 
@@ -124,6 +127,14 @@ public class GameFrame extends  JFrame{
         createFrameComponents();
         createAndShowGUI();
         setSize(new Dimension(200, 150));
+    }
+
+    public JLabel getCountDownLabel() {
+        return countDownLabel;
+    }
+
+    public void setCountDownLabel(JLabel countDownLabel) {
+        this.countDownLabel = countDownLabel;
     }
 
     public JPanel getBackPane() {

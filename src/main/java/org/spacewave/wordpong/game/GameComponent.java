@@ -1,5 +1,6 @@
 package org.spacewave.wordpong.game;
 
+import org.spacewave.wordpong.Countdown;
 import org.spacewave.wordpong.GameFrame;
 import org.spacewave.wordpong.Player;
 import org.spacewave.wordpong.WordPass;
@@ -23,12 +24,15 @@ public class GameComponent {
         System.out.println("Has send " + pass.getWordToPass());
     }
 
-    public WordPass tryCatchingPass(GameFrame swingApp, Connection connection) {
+    public WordPass tryCatchingPass(GameFrame swingApp, Connection connection, Countdown countdown) {
         Scanner scanner = new Scanner(connection.getInputStream());
         System.out.println(scanner.hasNext());
         String passToCatch = scanner.nextLine();
         WordPass newPass = new WordPass(passToCatch);
         System.out.println("Has received: " + newPass.getWordToPass());
+        countdown.SetGameFrame(swingApp);
+        countdown.setCount(10);
+        countdown.start();
         return newPass;
     }
     public GameFrame getTurn(GameFrame gameFrame, GameController.TypeOffListener typeOffListener, GameController.SendingPassListener sendingPassListener){
