@@ -35,30 +35,76 @@ public class GameFrame extends  JFrame{
      */
     public void createFrameComponents() {
 
-        backPane.setLayout(new BoxLayout(backPane, BoxLayout.Y_AXIS));
-        infoLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-        responseLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-        btn.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-        pointsLabel.setAlignmentX(CENTER_ALIGNMENT);
-        countDownLabel.setAlignmentX(CENTER_ALIGNMENT);
-
-        backPane.add(Box.createRigidArea(new Dimension(0, 5)));
-        backPane.add(infoLabel);
-        backPane.add(pointsLabel);
-        backPane.add(Box.createRigidArea(new Dimension(0, 5)));
-        backPane.add(playType);
-        playType.setVisible(false);
-        backPane.add(Box.createRigidArea(new Dimension(0, 5)));
-        backPane.add(responseLabel);
-        backPane.add(countDownLabel);
-        backPane.add(Box.createRigidArea(new Dimension(0, 5)));
-        backPane.add(btn);
-
-        pack();
+        this.backPane = new JPanel();
+        this.backPane.setLayout(new GridBagLayout());
+        this.btn = new JButton();
+        this.btn.setText("Button");
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weightx = 1.0D;
+        gbc.weighty = 1.0D;
+        gbc.fill = 2;
+        this.backPane.add(this.btn, gbc);
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = 1;
+        this.backPane.add(panel2, gbc);
+        this.pointsLabel = new JLabel();
+        this.pointsLabel.setText("Score: 0");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1.0D;
+        gbc.weighty = 1.0D;
+        gbc.anchor = 17;
+        panel2.add(this.pointsLabel, gbc);
+        this.countDownLabel = new JLabel();
+        this.countDownLabel.setText("Countdown: 0");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0D;
+        gbc.weighty = 1.0D;
+        gbc.anchor = 13;
+        panel2.add(this.countDownLabel, gbc);
+        JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.weighty = 1.0D;
+        gbc.fill = 1;
+        panel2.add(panel3, gbc);
+        this.responseLabel = new JLabel();
+        this.responseLabel.setText("Word to Type");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        panel2.add(this.responseLabel, gbc);
+        this.playType = new JTextField();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = 17;
+        gbc.fill = 2;
+        this.backPane.add(this.playType, gbc);
+        JPanel panel4 = new JPanel();
+        panel4.setLayout(new FlowLayout(1, 5, 5));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.fill = 1;
+        this.backPane.add(panel4, gbc);
+        this.infoLabel = new JLabel();
+        this.infoLabel.setText("Response Label");
+        panel4.add(this.infoLabel);
 
         add(backPane);
-
-        // ToDo rules schreiben :)
 
         // Adding menu for rules.
         JMenuBar menu = new JMenuBar();
