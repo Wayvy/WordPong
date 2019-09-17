@@ -18,9 +18,6 @@ public class MenuController {
     private MenuComponent menuComponent;
 
     @Autowired
-    private ConnectionController connectionController;
-
-    @Autowired
     private ConnectDialog connectDialog;
 
     public MenuController(){

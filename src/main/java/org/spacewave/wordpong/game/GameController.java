@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+
+import static org.spacewave.wordpong.game.GameComponent.RECEIVE_CODE_WORD;
 
 @Controller
 public class GameController {
@@ -30,21 +33,37 @@ public class GameController {
     private TypeOffListener typeOffListener;
 
     public void StartGame(Connection connection, Player player) {
-        sendingPassListener = new SendingPassListener(connection);
+        sendingPassListener = new SendingPassListener(connection, countdown);
         gameComponent.getFirstTurn(gameFrame, menuController, sendingPassListener, player);
     }
 
     public void passivFrame(Connection connection) {
-        sendingPassListener = new SendingPassListener(connection);
+        sendingPassListener = new SendingPassListener(connection, countdown);
         gameComponent.getFirstPassivFrame(gameFrame, menuController);
     }
 
     public void RunGameLoop(Connection connection, Player player) {
         while(true){
-            WordPass wordPass = gameComponent.tryCatchingPass(gameFrame, connection, countdown);
-            typeOffListener = new TypeOffListener(gameFrame.getPlayType(), wordPass, gameFrame.getResponseLabel(), player);
-            gameComponent.typeOff(gameFrame, wordPass, typeOffListener);
+            Map.Entry<String, String> received = gameComponent.tryCatchingPass(gameFrame, connection, countdown);
+            if(received.getKey().equals(RECEIVE_CODE_WORD)){
+                WordPass wordPass = new WordPass(received.getValue());
+                typeOffListener = new TypeOffListener(gameFrame.getPlayType(), wordPass, gameFrame.getResponseLabel(), player);
+                gameComponent.typeOff(gameFrame, wordPass, typeOffListener);
+            } else {
+                GetWinningScreen();
+            }
         }
+    }
+
+    public void GetGameOver(Connection connection){
+        System.out.println("You lost");
+        gameFrame.getBtn().setEnabled(false);
+        gameFrame.getPlayType().setEnabled(false);
+        gameComponent.sendGameOver(connection);
+    }
+
+    public void GetWinningScreen(){
+        System.out.println("You win");
     }
 
     class TypeOffListener implements ActionListener {
@@ -84,14 +103,19 @@ public class GameController {
     class SendingPassListener implements ActionListener {
 
         private Connection connection;
+        private Countdown countdown;
 
-        public SendingPassListener(Connection connection) {
+        public SendingPassListener(Connection connection, Countdown countdown) {
+            this.countdown = countdown;
             this.connection = connection;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             gameComponent.sendPass(new WordPass(gameFrame.getPlayType().getText()), connection);
+            if(countdown.isRunning()){
+                countdown.interrupt();
+            }
             gameComponent.passivFrame(gameFrame, sendingPassListener);
         }
     }

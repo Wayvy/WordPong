@@ -36,39 +36,6 @@ public class Player {
 		score += pointsToAdd;
 	}
 
-	/**
-	 * The Player will pick a word, that will be send to the other Player, via
-	 * the Program.
-	 * 
-	 * @return - The word, that will be sent to the other player
-	 */
-	public String pickWord() {
-		System.out.println(name + " picks Word");
-		String word = scn.next();
-		return word;
-	}
-
-	/**
-	 * The player will have to type away the wordToss, until he gets every
-	 * letter right
-	 * 
-	 * @param toss
-	 *            - The WordPass, that has to be caught, by the player
-	 */
-	public void take(WordPass toss) {
-		System.out.println(name + " catches Word" + toss.getWordToPass());
-		String word;
-
-		do {
-			word = scn.next();
-		} while (!word.equals(toss.getWordToPass()));
-		return;
-		// 3, 2, 1 Go
-		// Start Timer
-		// Type away
-		// Check Correctness
-	}
-
 	public String getName() {
 		return name;
 	}

@@ -9,19 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 @SpringBootApplication
-public class GameFrame extends  JFrame{
+public class GameFrame extends JFrame {
 
     private JPanel backPane = new JPanel();
     private JTextField playType = new JTextField(20);
+    private JPanel graphicsPanel = new JPanel();
     private JButton btn = new JButton();
     private JLabel infoLabel = new JLabel();
     private JLabel countDownLabel = new JLabel();
     private JLabel responseLabel = new JLabel("");
     private JLabel pointsLabel = new JLabel("");
+    private JPanel graphic;
 
     @Autowired
     private MenuController menuController;
@@ -31,7 +36,6 @@ public class GameFrame extends  JFrame{
      * Constructor for the GameFrame. Sets the frame title, creates the layout
      * and an instance of FrameStates whom it calls the initFrame(). Getters and
      * setters for the JButton, the JLabels and the JTextField.
-     *
      */
     public void createFrameComponents() {
 
@@ -41,7 +45,7 @@ public class GameFrame extends  JFrame{
         this.btn.setText("Button");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.weightx = 1.0D;
         gbc.weighty = 1.0D;
         gbc.fill = 2;
@@ -84,12 +88,12 @@ public class GameFrame extends  JFrame{
         this.responseLabel.setText("Word to Type");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         panel2.add(this.responseLabel, gbc);
         this.playType = new JTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.anchor = 17;
         gbc.fill = 2;
         this.backPane.add(this.playType, gbc);
@@ -97,7 +101,7 @@ public class GameFrame extends  JFrame{
         panel4.setLayout(new FlowLayout(1, 5, 5));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.fill = 1;
         this.backPane.add(panel4, gbc);
         this.infoLabel = new JLabel();
@@ -164,7 +168,7 @@ public class GameFrame extends  JFrame{
         this.responseLabel = responseLabel;
     }
 
-    public void setPointsLabel(int points){
+    public void setPointsLabel(int points) {
         pointsLabel.setText("Score: " + points);
     }
 
