@@ -2,6 +2,7 @@ package org.spacewave.wordpong;
 
 import org.spacewave.wordpong.game.GameController;
 import org.spacewave.wordpong.infrastructure.Connection;
+import org.spacewave.wordpong.infrastructure.ConnectionController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class Countdown implements Runnable {
 	private int interval;
 
 	private Connection connection;
+	private ConnectionController connectionController;
 	private int count;
 	private GameFrame gameFrame;
 
@@ -56,7 +58,7 @@ public class Countdown implements Runnable {
 			}
 			if(count <= 0){
 			    if(isYourTurn.get()){
-                	gameController.GetGameOver(connection);
+                	gameController.GetGameOver(connection, connectionController);
 				}
 			    stop();
                 worker.interrupt();
@@ -70,6 +72,10 @@ public class Countdown implements Runnable {
 		running.set(false);
 		stopped.set(true);
 		worker.interrupt();
+	}
+
+	public void SetConnectionController(ConnectionController connectionController) {
+		this.connectionController = connectionController;
 	}
 
 	public Countdown() {

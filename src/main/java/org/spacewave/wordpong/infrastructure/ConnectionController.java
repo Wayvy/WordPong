@@ -34,95 +34,88 @@ public class ConnectionController extends Thread {
 	@Autowired
 	private GameController gameController;
 
+	private Thread worker;
+
 	/**
 	 * Host the game and lets other people connect to this Socket. Runs in the
 	 * background, and checks the connection and creates the GameThread, once
 	 * the connection to the other player has been accepted.
 	 */
 	public void hostGame(GameFrame gameFrame, Connection connection) {
-		Thread hostThread = new Thread() {
+		worker = new Thread(() -> {
+			try {
+				menuComponent.waitForJoin(gameFrame);
+				ServerSocket host = new ServerSocket(connection.getPort(), 100);
+				connection.setNameHost(JOptionPane.showInputDialog("Please enter your name"));
+				connection.setNemesis(host.accept());
 
-			// @Override
-			public void run() {
-				try {
-					menuComponent.waitForJoin(gameFrame);
-					ServerSocket host = new ServerSocket(connection.getPort(), 100);
-					connection.setNameHost(JOptionPane.showInputDialog("Please enter your name"));
-					connection.setNemesis(host.accept());
+				setupFileIO(connection);
 
-					setupFileIO(connection);
+				connection.getWriter().println("Hello, here is " + connection.getNameHost() + " !");
+				connection.getWriter().flush();
 
-					connection.getWriter().println("Hello, here is " + connection.getNameHost() + " !");
-					connection.getWriter().flush();
+				String message = connection.getReader().nextLine();
+				System.out.println(message);
 
-					String message = connection.getReader().nextLine();
-					System.out.println(message);
+				Player player = new Player(connection.getNameHost());
+				gameController.StartGame(connection, player);
+				gameController.RunGameLoop(connection, player, this);
 
-					Player player = new Player(connection.getNameHost());
-					gameController.StartGame(connection, player);
-					gameController.RunGameLoop(connection, player);
-					
-					while (true) {
-						if (Thread.interrupted())
-							break;
-					}
-					host.close();
-				} catch (IOException e) {
-					// TODO Maybe the client has to resends the dataStreams
-					e.printStackTrace();
-				} finally {
+				while (true) {
+					if (interrupted())
+						break;
 				}
+				host.close();
+			} catch (IOException e) {
+				// TODO Maybe the client has to resends the dataStreams
+				e.printStackTrace();
+			} finally {
 			}
-		};
-		hostThread.start();
-
+		});
+		worker.start();
 	};
 
 	/**
 	 * Joining an already existing host
 	 */
 	public void joinGame(Connection connection) {
-		Thread joinThread = new Thread() {
+		// @Override
+		Thread joinThread = new Thread(() -> {
 
-			// @Override
-			public void run() {
+			try {
+				connection.setNameClient(JOptionPane.showInputDialog("Please enter your name"));
 
-				try {
-					connection.setNameClient(JOptionPane.showInputDialog("Please enter your name"));
+				// Setup Socket
+				connection.setNemesis(new Socket(InetAddress.getByName(connection.getAddress()), connection.getPort()));
 
-					// Setup Socket
-					connection.setNemesis(new Socket(InetAddress.getByName(connection.getAddress()), connection.getPort()));
+				setupFileIO(connection);
 
-					setupFileIO(connection);
+				// Write to Server
+				connection.getWriter().println("Hello, here is " + connection.getNameClient() + " !");
+				connection.getWriter().flush();
 
-					// Write to Server
-					connection.getWriter().println("Hello, here is " + connection.getNameClient() + " !");
-					connection.getWriter().flush();
+				// Read from server
+				String message = connection.getReader().nextLine();
+				System.out.println(message);
 
-					// Read from server
-					String message = connection.getReader().nextLine();
-					System.out.println(message);
+				Player player = new Player(connection.getNameClient());
 
-					Player player = new Player(connection.getNameClient());
+				gameController.passivFrame(connection);
+				gameController.RunGameLoop(connection, player, this);
 
-					gameController.passivFrame(connection);
-					gameController.RunGameLoop(connection, player);
-
-					while(true)
-					{
-						if(Thread.interrupted());
-						break;
-					}
-
-				} catch (IOException e) {
-					// TODO Something with the IOStreams is wrong, how can that
-					// be solved??
-					e.printStackTrace();
+				while(true)
+				{
+					if(interrupted());
+					break;
 				}
 
+			} catch (IOException e) {
+				// TODO Something with the IOStreams is wrong, how can that
+				// be solved??
+				e.printStackTrace();
 			}
 
-		};
+		});
 
 		joinThread.start();
 	}

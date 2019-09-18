@@ -76,26 +76,24 @@ public class ClientCard extends JPanel {
         // Adds Listeners
         portField.addFocusListener(new TextFieldListener("Enter Port", portField));
         ipField.addFocusListener(new TextFieldListener("Enter IP", ipField));
-        joinBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        joinBtn.addActionListener(e -> {
 
-                try {
-                    port = Integer.parseInt(portField.getText());
-                    ip = ipField.getText();
+			try {
+				port = Integer.parseInt(portField.getText());
+				ip = ipField.getText();
 
-                    if (port < 1025) {
-                        portField.setText("invalid port");
-                    } else if (!validate(ip)) {
-                        ipField.setText("invalid IP");
-                    } else {
-                        join(connection, gameFrame);
-                    }
-                } catch (NumberFormatException f) {
-                    portField.setText("invalid input");
-                }
+				if (port < 1025) {
+					portField.setText("invalid port");
+				} else if (!validate(ip)) {
+					ipField.setText("invalid IP");
+				} else {
+					join(connection, gameFrame);
+				}
+			} catch (NumberFormatException f) {
+				portField.setText("invalid input");
+			}
 
-            }
-        });
+		});
         // Zum Schnellen testen
         portField.setText("11200");
         ipField.setText("127.0.0.1");

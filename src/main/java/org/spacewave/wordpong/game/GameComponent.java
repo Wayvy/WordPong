@@ -6,6 +6,7 @@ import org.spacewave.wordpong.GameFrame;
 import org.spacewave.wordpong.Player;
 import org.spacewave.wordpong.WordPass;
 import org.spacewave.wordpong.infrastructure.Connection;
+import org.spacewave.wordpong.infrastructure.ConnectionController;
 import org.spacewave.wordpong.menu.MenuController;
 import org.springframework.stereotype.Component;
 
@@ -29,21 +30,22 @@ public class GameComponent {
         printWriter.flush();
     }
 
-    public Map.Entry<String, String> tryCatchingPass(GameFrame swingApp, Connection connection, Countdown countdown) {
+    public Map.Entry<String, String> tryCatchingPass(GameFrame swingApp, Connection connection, Countdown countdown, ConnectionController connectionController) {
         Scanner scanner = new Scanner(connection.getInputStream());
         String passToCatch = scanner.nextLine();
         if (passToCatch.contains(RECEIVE_CODE_STATUS + "|end")) {
             return Map.entry(RECEIVE_CODE_STATUS, "");
         } else {
-            return Map.entry(RECEIVE_CODE_WORD, catchPass(swingApp, connection, countdown, passToCatch.split("\\|")[1]));
+            return Map.entry(RECEIVE_CODE_WORD, catchPass(swingApp, connection, countdown, passToCatch.split("\\|")[1], connectionController));
         }
     }
 
-    private String catchPass(GameFrame swingApp, Connection connection, Countdown countdown, String passToCatch) {
+    private String catchPass(GameFrame swingApp, Connection connection, Countdown countdown, String passToCatch, ConnectionController connectionController) {
         swingApp.getBtn().setEnabled(true);
         swingApp.getPlayType().setEnabled(true);
         countdown.SetGameFrame(swingApp);
         countdown.SetConnection(connection);
+        countdown.SetConnectionController(connectionController);
         countdown.setYourTurn(true);
         countdown.setCount(10);
         countdown.start();
